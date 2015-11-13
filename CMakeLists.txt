@@ -90,17 +90,7 @@ add_compile_options (
 
 include_directories (include/)
 
-set(ALGORITHM
-            ./src/main.cpp
-)
-add_library (algorithm STATIC ${ALGORITHM})
-target_link_libraries(algorithm)
-
-set(TESTS
-            ./test/test.cpp
-)
-add_executable (ztests ${TESTS})
-target_link_libraries (ztests
-    -Xlinker --whole-archive    ${CMAKE_SOURCE_DIR}/libalgorithm.a
-    -Xlinker --no-whole-archive libgtest libgtest_main
-)
+# TODO: log current directory
+message(STATUS "Entering src")
+add_subdirectory(src)
+message(STATUS "Exiting src")
