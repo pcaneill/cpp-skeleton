@@ -1,0 +1,15 @@
+* [TODO] Custom targets
+   - [TODO] make test
+   - [TODO] make asan
+   - [TODO] make tsan
+   - [TODO] make ubsan
+   - [TODO] make msan
+   - [TODO] make tags
+   - [TODO] make ycm_configuration
+   - [TODO] make check (linter, and clang format)
+   - [TODO] make lcov (linter, and clang format)
+   - [TODO] make benchmark (flamegraph)
+   - [TODO] make doc (doxygen or libphenom like)
+   - [TODO] make clang_static_analyzer
+
+* [TODO] Clang-format integration
