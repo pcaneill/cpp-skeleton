@@ -1,3 +1,5 @@
+project(project_src_test)
+
 # TODO: fix glob
 #set(GLOB TESTS_SRC *.h *.hpp *.cpp)
 
