@@ -94,8 +94,6 @@ set(ALGORITHM
             ./src/main.cpp
 )
 add_library (algorithm STATIC ${ALGORITHM})
-
-link_directories (.)
 target_link_libraries(algorithm)
 
 set(TESTS
