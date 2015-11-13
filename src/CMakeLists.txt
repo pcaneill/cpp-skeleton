@@ -1,3 +1,5 @@
+project(project_src)
+
 set(PROJECT_LIB "project")
 
 # TODO: fix glob
