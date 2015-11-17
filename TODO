@@ -1,6 +1,6 @@
 * [TODO] Custom targets
    - [TODO] make test
-   - [TODO] make asan
+   - [TODO] make asan (https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo)
    - [TODO] make tsan
    - [TODO] make ubsan
    - [TODO] make msan
