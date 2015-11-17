@@ -13,3 +13,5 @@
    - [TODO] make clang_static_analyzer
 
 * [TODO] Clang-format integration
+
+* [TODO] Have specific build directories depending on the target
