@@ -12,6 +12,8 @@ ExternalProject_Add(
   googletest
   PREFIX          ${CMAKE_BINARY_DIR}/CMakeFiles/googletest
   SOURCE_DIR      ${CMAKE_SOURCE_DIR}/third_party/googletest/googletest
+  CMAKE_ARGS      -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                  -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
   INSTALL_COMMAND ""
 )
 
