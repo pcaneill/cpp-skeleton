@@ -33,7 +33,7 @@ set_target_properties(libgtest_main PROPERTIES
 
 include_directories("${source_dir}/include")
 
-message(STATUS "Using google test framework")
+message(STATUS "Using googletest framework")
 message(STATUS "Googletest binary: ${binary_dir}")
 message(STATUS "Googletest source: ${source_dir}")
 
@@ -72,7 +72,7 @@ add_compile_options (
  -Wunused
  -Wwrite-strings
  -Wwrite-strings
- # Auto vectorization
+# Auto vectorization
  -ftree-vectorize
 # Formating
  -fshow-column
