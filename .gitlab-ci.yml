@@ -6,6 +6,13 @@ normal:
         - cmake .
         - make
         - ./src/test/ztests
+        - cd src/
+        - touch main.cpp
+        - make
+        - ./test/ztests
+        - cd test
+        - touch test.cpp
+        - ./ztests
 
 asan:
     script:
