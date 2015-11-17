@@ -22,3 +22,9 @@ rm -rf ./CMakeFiles
 rm -rf ./CMakeCache.txt
 rm -rf ./cmake_install.cmake
 rm -rf Makefile
+cd ../../
+cd ./third_party/googletest/googletest
+rm -rf ./CMakeFiles
+rm -rf ./CMakeCache.txt
+rm -rf ./cmake_install.cmake
+rm -rf Makefile
