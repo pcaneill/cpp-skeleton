@@ -1,0 +1,23 @@
+#! /bin/bash
+mkdir build
+cd build
+mkdir normal
+cd normal
+cmake ../../
+cd ../
+mkdir asan
+cd asan
+cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_ASAN=ON ../../
+cd ../
+mkdir tsan
+cd tsan
+cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_TSAN=ON ../../
+cd ../
+mkdir msan
+cd msan
+cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_MSAN=ON ../../
+cd ../
+mkdir usan
+cd usan
+cmake -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_USAN=ON ../../
+cd ../

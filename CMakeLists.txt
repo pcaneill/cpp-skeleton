@@ -6,10 +6,10 @@ include(ExternalProject)
 
 # {{{ Sanitizers
 
-option(CLANG_ASAN "Enable Clang address sanitizer" OFF)
-option(CLANG_MSAN "Enable Clang memory sanitizer" OFF)
+option(CLANG_ASAN "Enable Clang address sanitizer"   OFF)
+option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
 option(CLANG_USAN "Enable Clang undefined sanitizer" OFF)
-option(CLANG_TSAN "Enable Clang thread sanitizer" OFF)
+option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
 if (CLANG_ASAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
 endif()
@@ -120,33 +120,3 @@ include_directories (include/)
 message(STATUS "Entering src")
 add_subdirectory(src)
 message(STATUS "Exiting src")
-
-# {{{ Custom targets
-
-add_custom_target(asan
-    COMMAND ${CMAKE_COMMAND}
-    -DCLANG_ASAN=ON
-    -DCMAKE_CXX_COMPILER=clang++
-    -DCMAKE_C_COMPILER=clang
-)
-add_custom_target(msan
-    COMMAND ${CMAKE_COMMAND}
-    -DCLANG_MSAN=ON
-    -DCMAKE_CXX_COMPILER=clang++
-    -DCMAKE_C_COMPILER=clang
-)
-add_custom_target(usan
-    COMMAND ${CMAKE_COMMAND}
-    -DCLANG_USAN=ON
-    -DCMAKE_CXX_COMPILER=clang++
-    -DCMAKE_C_COMPILER=clang
-)
-add_custom_target(tsan
-    COMMAND ${CMAKE_COMMAND}
-    -DCLANG_TSAN=ON
-    -DCMAKE_CXX_COMPILER=clang++
-    -DCMAKE_C_COMPILER=clang
-)
-
-# }}}
-
