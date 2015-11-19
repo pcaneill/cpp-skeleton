@@ -1,39 +1,43 @@
 before_script:
     - git submodule update --init --recursive
+    - ./configure
 
 normal:
     script:
-        - cmake .
+        - cd build/normal
         - make
         - ./src/test/ztests
-        - cd src/
+        - cd ../../src/
         - touch main.cpp
+        - cd ../build/normal/src
         - make
         - ./test/ztests
-        - cd test
+        - cd ../../../src/test
         - touch test.cpp
+        - cd ../../build/normal/src/test
+        - make
         - ./ztests
 
 asan:
     script:
-        - cmake .
-        - make asan
+        - cd build/asan
+        - make
         - ./src/test/ztests
 
 msan:
     script:
-        - cmake .
-        - make msan
+        - cd build/msan
+        - make
         - ./src/test/ztests
 
 usan:
     script:
-        - cmake .
-        - make usan
+        - cd build/usan
+        - make
         - ./src/test/ztests
 
 tsan:
     script:
-        - cmake .
-        - make tsan
+        - cd build/tsan
+        - make
         - ./src/test/ztests
