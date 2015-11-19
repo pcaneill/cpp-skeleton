@@ -16,6 +16,24 @@ normal:
 
 asan:
     script:
-        - cmake -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ .
+        - cmake -DCLANG_ASAN=ON
+        - make
+        - ./src/test/ztests
+
+msan:
+    script:
+        - cmake -DCLANG_MSAN=ON
+        - make
+        - ./src/test/ztests
+
+usan:
+    script:
+        - cmake -DCLANG_USAN=ON
+        - make
+        - ./src/test/ztests
+
+tsan:
+    script:
+        - cmake -DCLANG_TSAN=ON
         - make
         - ./src/test/ztests
