@@ -16,24 +16,24 @@ normal:
 
 asan:
     script:
-        - cmake -DCLANG_ASAN=ON
-        - make
+        - cmake .
+        - make asan
         - ./src/test/ztests
 
 msan:
     script:
-        - cmake -DCLANG_MSAN=ON
-        - make
+        - cmake .
+        - make msan
         - ./src/test/ztests
 
 usan:
     script:
-        - cmake -DCLANG_USAN=ON
-        - make
+        - cmake .
+        - make usan
         - ./src/test/ztests
 
 tsan:
     script:
-        - cmake -DCLANG_TSAN=ON
-        - make
+        - cmake .
+        - make tsan
         - ./src/test/ztests
