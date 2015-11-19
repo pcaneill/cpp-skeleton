@@ -14,7 +14,7 @@ if (CLANG_ASAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
 endif()
 if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-g -fsanitize=memory -fsanitize-memory-track-origins
+    set (CMAKE_CXX_FLAGS "-g -fsanitize=memory -fsanitize-memory-track-origins \
                           -fno-omit-frame-pointer -fno-optimize-sibling-calls")
 endif()
 if (CLANG_USAN)
