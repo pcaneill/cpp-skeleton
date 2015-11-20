@@ -14,14 +14,16 @@ if (CLANG_ASAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
 endif()
 if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-g -fsanitize=memory -fsanitize-memory-track-origins \
+    set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=memory -fsanitize-memory-track-origins \
                           -fno-omit-frame-pointer -fno-optimize-sibling-calls")
+    set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
 if (CLANG_USAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=undefined")
 endif()
 if (CLANG_TSAN)
-    set (CMAKE_CXX_FLAGS "-g -fsanitize=thread")
+    set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=thread")
+    set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
 
 # }}}
