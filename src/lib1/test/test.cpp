@@ -8,7 +8,7 @@ namespace test {
 
 TEST(TestShared, test1)
 {
-  display();
+  lib1::display();
   ASSERT_TRUE(true);
 }
 

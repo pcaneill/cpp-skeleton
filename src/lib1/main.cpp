@@ -2,9 +2,14 @@
 
 #include <lib1/main.hpp>
 
+namespace lib1
+{
+
 void display()
 {
   std::cout << "Hello World!" << std::endl;
+}
+
 }
 
 /* {{{ Tests */
@@ -13,7 +18,7 @@ void display()
 
 namespace test {
 
-TEST(TestStatic, test2)
+TEST(TestStatic, test4)
 {
   ASSERT_TRUE(true);
 }

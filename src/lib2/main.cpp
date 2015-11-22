@@ -1,10 +1,15 @@
 #include <iostream>
 
-#include <lib1/main.hpp>
+#include <lib2/main.hpp>
+
+namespace lib2
+{
 
 void display()
 {
   std::cout << "Hello World!" << std::endl;
+}
+
 }
 
 /* {{{ Tests */
