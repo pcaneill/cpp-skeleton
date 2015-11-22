@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.0.2)
+cmake_minimum_required(VERSION 3.0.2)
 
-project (algorithm)
+project(algorithm)
 
 include(ExternalProject)
 
@@ -118,7 +118,4 @@ add_compile_options (
 
 include_directories (include/)
 
-# TODO: log current directory
-message(STATUS "Entering src")
 add_subdirectory(src)
-message(STATUS "Exiting src")
