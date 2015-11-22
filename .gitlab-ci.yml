@@ -5,39 +5,33 @@ before_script:
 normal:
     script:
         - cd build/normal
-        - make
+        - make test
         - ./src/test/ztests
         - cd ../../src/
         - touch main.cpp
         - cd ../build/normal/src
-        - make
-        - ./test/ztests
+        - make test
         - cd ../../../src/test
         - touch test.cpp
         - cd ../../build/normal/src/test
-        - make
-        - ./ztests
+        - make test
 
 asan:
     script:
         - cd build/asan
-        - make
-        - ./src/test/ztests
+        - make test
 
 msan:
     script:
         - cd build/msan
-        - make
-        - ./src/test/ztests
+        - make test
 
 usan:
     script:
         - cd build/usan
-        - make
-        - ./src/test/ztests
+        - make test
 
 tsan:
     script:
         - cd build/tsan
-        - make
-        - ./src/test/ztests
+        - make test
