@@ -14,3 +14,8 @@ target_link_libraries (ztests
     -Xlinker --whole-archive    ${PROJECT_LIB}
     -Xlinker --no-whole-archive libgtest libgtest_main
 )
+
+add_test(
+  NAME tests
+  COMMAND ztests
+)

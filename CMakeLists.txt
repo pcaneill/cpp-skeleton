@@ -116,6 +116,9 @@ add_compile_options (
 
  # }}}
 
+# CMake Test generation (Will use the CTest module)
+enable_testing()
+
 include_directories (include/)
 
 add_subdirectory(src)
