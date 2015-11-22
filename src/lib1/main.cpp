@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include <project/main.hpp>
+#include <lib1/main.hpp>
 
 void display()
 {

@@ -1,4 +1,4 @@
-#include <project/main.hpp>
+#include <lib1/main.hpp>
 
 /* {{{ Tests */
 
