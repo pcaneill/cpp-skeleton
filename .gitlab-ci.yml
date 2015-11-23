@@ -5,29 +5,36 @@ before_script:
 normal:
     script:
         - cd build/normal
+        - make
         - make test
         - ./src/test/ztests
         - cd ../../src/
         - touch main.cpp
         - cd ../build/normal/src
+        - make
         - make test
         - cd ../../../src/test
         - touch test.cpp
         - cd ../../build/normal/src/test
+        - make
         - make test
 
 asan:
     script:
+        - make P=asan
         - make P=asan test
 
 msan:
     script:
+        - make P=msan
         - make P=msan test
 
 usan:
     script:
+        - make P=usan
         - make P=usan test
 
 tsan:
     script:
+        - make P=tsan
         - make P=tsan test
