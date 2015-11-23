@@ -1,8 +1,10 @@
 RM = rm -rf
 PROFILES = normal debug release asan msan tsan usan
 
-all: ./build/normal/Makefile
-	@$(MAKE) -C ./build/normal
+v/profile := $(or $(P),$(PROFILE),normal)
+
+all: ./build/$(v/profile)/Makefile
+	@$(MAKE) -C ./build/$(v/profile)
 
 ./build/normal/Makefile:
 	@(mkdir -p ./build/normal && cd ./build/normal > /dev/null 2>&1 && cmake ../../)
@@ -43,3 +45,12 @@ help:
 	@echo "... msan"
 	@echo "... tsan"
 	@echo "... usan"
+
+ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
+ifeq ($(findstring help,$(MAKECMDGOALS)),)
+
+$(MAKECMDGOALS): ./build/${v/profile}/Makefile
+	@ $(MAKE) -C ./build/${v/profile} $(MAKECMDGOALS)
+
+endif
+endif

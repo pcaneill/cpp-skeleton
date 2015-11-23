@@ -18,20 +18,16 @@ normal:
 
 asan:
     script:
-        - cd build/asan
-        - make test
+        - make P=asan test
 
 msan:
     script:
-        - cd build/msan
-        - make test
+        - make P=msan test
 
 usan:
     script:
-        - cd build/usan
-        - make test
+        - make P=usan test
 
 tsan:
     script:
-        - cd build/tsan
-        - make test
+        - make P=tsan test
