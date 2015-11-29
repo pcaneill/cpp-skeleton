@@ -1,17 +1,19 @@
 * [TODO] Custom targets
-   - [TODO] make test
-   - [TODO] make asan (https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo)
-   - [TODO] make tsan
-   - [TODO] make ubsan
-   - [TODO] make msan
+   - [DONE] make test
+   - [DONE] make asan (https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo)
+   - [DONE] make tsan
+   - [DONE] make ubsan
+   - [DONE] make msan
    - [TODO] make tags
    - [TODO] make ycm_configuration
    - [TODO] make check (linter, and clang format)
-   - [TODO] make lcov (linter, and clang format)
+   - [TODO] make lcov
    - [TODO] make benchmark (flamegraph)
    - [TODO] make doc (doxygen or libphenom like)
    - [TODO] make clang_static_analyzer
 
 * [TODO] Clang-format integration
 
-* [TODO] Have specific build directories depending on the target
+* [DONE] Have specific build directories depending on the target
+* [TODO] Be able to call make * from any directory
+* [TODO] Check that the license has been added in every files
