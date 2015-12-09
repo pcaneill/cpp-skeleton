@@ -29,7 +29,7 @@ define make_distclean
 	@(mkdir -p ./build/$(strip $(1)) && cd ./build/$(strip $(1)) > /dev/null 2>&1 && cmake ../../)
 	@(cd ./build/$(strip $(1)) > /dev/null 2>&1 && cmake ../.. > /dev/null 2>&1)
 	@$(MAKE) --silent -C ./build/$(strip $(1)) clean || true
-	@$(RM) -rf ./build/$(strip $(1))
+	@$(RM) ./build/$(strip $(1))
 
 endef
 
