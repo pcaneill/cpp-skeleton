@@ -4,29 +4,44 @@ project(algorithm)
 
 include(ExternalProject)
 
-# {{{ Sanitizers
+# {{{ Targets
+# {{{ asan: Clang adress sanitizer
 
 option(CLANG_ASAN "Enable Clang address sanitizer"   OFF)
-option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
-option(CLANG_USAN "Enable Clang undefined sanitizer" OFF)
-option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
 if (CLANG_ASAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
 endif()
+
+# }}}
+# {{{ msan: Clang memory sanitizer
+
+option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
 if (CLANG_MSAN)
     set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=memory -fsanitize-memory-track-origins \
                           -fno-omit-frame-pointer -fno-optimize-sibling-calls")
     set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
+
+# }}}
+# {{{ usan: Clang undefined sanitizer
+
+option(CLANG_USAN "Enable Clang undefined sanitizer" OFF)
 if (CLANG_USAN)
     set (CMAKE_CXX_FLAGS "-g -fsanitize=undefined")
 endif()
+
+# }}}
+# {{{ tsan: Clang thread sanitizer
+
+option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
 if (CLANG_TSAN)
     set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=thread")
     set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
 
 # }}}
+# }}}
+# {{{ Third Parties
 # {{{ GoogleTest
 
 find_package(Threads REQUIRED)
@@ -65,6 +80,7 @@ message(STATUS "Using googletest framework")
 message(STATUS "Googletest binary: ${binary_dir}")
 message(STATUS "Googletest source: ${source_dir}")
 
+# }}}
 # }}}
 # {{{ Compilation Flags
 
