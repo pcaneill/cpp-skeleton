@@ -5,11 +5,11 @@ project(algorithm)
 include(ExternalProject)
 
 # {{{ Targets
-# {{{ asan: Clang adress sanitizer
+# {{{ asan: Clang address sanitizer
 
 option(CLANG_ASAN "Enable Clang address sanitizer"   OFF)
 if (CLANG_ASAN)
-    set (CMAKE_CXX_FLAGS "-g -fsanitize=address -fno-omit-frame-pointer")
+    set (CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
 endif()
 
 # }}}
@@ -17,7 +17,7 @@ endif()
 
 option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
 if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=memory -fsanitize-memory-track-origins \
+    set (CMAKE_CXX_FLAGS "-fPIE -fsanitize=memory -fsanitize-memory-track-origins \
                           -fno-omit-frame-pointer -fno-optimize-sibling-calls")
     set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
@@ -27,7 +27,7 @@ endif()
 
 option(CLANG_USAN "Enable Clang undefined sanitizer" OFF)
 if (CLANG_USAN)
-    set (CMAKE_CXX_FLAGS "-g -fsanitize=undefined")
+    set (CMAKE_CXX_FLAGS "-fsanitize=undefined")
 endif()
 
 # }}}
@@ -35,7 +35,7 @@ endif()
 
 option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
 if (CLANG_TSAN)
-    set (CMAKE_CXX_FLAGS "-g -fPIE -fsanitize=thread")
+    set (CMAKE_CXX_FLAGS "-fPIE -fsanitize=thread")
     set (CMAKE_EXE_LINKER_FLAGS "-pie")
 endif()
 

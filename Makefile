@@ -16,16 +16,16 @@ all: ./build/$(v/profile)/Makefile
 	@(mkdir -p ./build/debug && cd ./build/debug > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
 
 ./build/asan/Makefile:
-	@(mkdir -p ./build/asan && cd ./build/asan > /dev/null 2>&1 && cmake ../../)
+	@(mkdir -p ./build/asan && cd ./build/asan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
 
 ./build/msan/Makefile:
-	@(mkdir -p ./build/msan && cd ./build/msan > /dev/null 2>&1 && cmake ../../)
+	@(mkdir -p ./build/msan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
 
 ./build/tsan/Makefile:
-	@(mkdir -p ./build/tsan && cd ./build/asan > /dev/null 2>&1 && cmake ../../)
+	@(mkdir -p ./build/tsan && cd ./build/asan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
 
 ./build/usan/Makefile:
-	@(mkdir -p ./build/usan && cd ./build/msan > /dev/null 2>&1 && cmake ../../)
+	@(mkdir -p ./build/usan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
