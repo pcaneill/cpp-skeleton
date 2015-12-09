@@ -9,6 +9,12 @@ all: ./build/$(v/profile)/Makefile
 ./build/normal/Makefile:
 	@(mkdir -p ./build/normal && cd ./build/normal > /dev/null 2>&1 && cmake ../../)
 
+./build/release/Makefile:
+	@(mkdir -p ./build/release && cd ./build/release > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Release ../../)
+
+./build/debug/Makefile:
+	@(mkdir -p ./build/debug && cd ./build/debug > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
+
 ./build/asan/Makefile:
 	@(mkdir -p ./build/asan && cd ./build/asan > /dev/null 2>&1 && cmake ../../)
 
