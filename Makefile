@@ -33,9 +33,21 @@ define make_distclean
 
 endef
 
+# {{{ Help
+
 help:
+	@echo "TARGETS"
+	@echo "--------"
 	@echo "The following are some of the valid targets for this Makefile:"
+	@echo "... clean"
 	@echo "... distclean"
+	@echo "... test"
+	@echo ""
+	@echo "PROFILES"
+	@echo "--------"
+	@echo "Usage:"
+	@echo "... make PROFILE=asan test"
+	@echo "... make P=debug check"
 	@echo ""
 	@echo "Available Profiles are:"
 	@echo "... normal"
@@ -45,6 +57,14 @@ help:
 	@echo "... msan"
 	@echo "... tsan"
 	@echo "... usan"
+	@echo ""
+	@echo "Default profile: normal"
+	@echo ""
+	@echo "DEBUGGING"
+	@echo "---------"
+	@echo "Verbose mode: make VERBOSE=1"
+
+# }}}
 
 ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
