@@ -4,6 +4,8 @@
    - [DONE] make tsan
    - [DONE] make ubsan
    - [DONE] make msan
+   - [DONE] make release
+   - [DONE] make debug
    - [TODO] make tags
    - [TODO] make ycm_configuration
    - [TODO] make check (linter, and clang format)
