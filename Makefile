@@ -1,10 +1,14 @@
 RM = rm -rf
-PROFILES = normal debug release asan msan tsan usan
+PROFILES = normal debug release asan msan tsan usan analyzer
 
 v/profile := $(or $(P),$(PROFILE),normal)
 
 all: ./build/$(v/profile)/Makefile
+ifeq (${v/profile},analyzer)
+	@scan-build $(MAKE) -C ./build/$(v/profile)
+else
 	@$(MAKE) -C ./build/$(v/profile)
+endif
 
 ./build/normal/Makefile:
 	@(mkdir -p ./build/normal && cd ./build/normal > /dev/null 2>&1 && cmake ../../)
@@ -26,6 +30,9 @@ all: ./build/$(v/profile)/Makefile
 
 ./build/usan/Makefile:
 	@(mkdir -p ./build/usan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
+
+./build/analyzer/Makefile:
+	@(mkdir -p ./build/analyzer && cd ./build/analyzer > /dev/null 2>&1 && scan-build cmake ../../)
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
@@ -63,6 +70,7 @@ help:
 	@echo "... msan"
 	@echo "... tsan"
 	@echo "... usan"
+	@echo "... analyzer"
 	@echo ""
 	@echo "Default profile: normal"
 	@echo ""

@@ -37,3 +37,7 @@ tsan:
     script:
         - make P=tsan
         - make P=tsan test
+
+analyzer:
+    script:
+        - make P=analyzer
