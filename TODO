@@ -17,3 +17,6 @@
 * [DONE] Have specific build directories depending on the target
 * [TODO] Be able to call make * from any directory
 * [TODO] Check that the license has been added in every files
+* [TODO] Be able to update the licence directly in the makefiles
+* [TODO] Have the documentation of the makefile in a separate file that can be
+         read within the browser (markdown for example)
