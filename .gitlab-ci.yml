@@ -3,7 +3,7 @@ before_script:
 
 normal:
     script:
-      - ./build_test/normal.sh
+      - ./build_tests/normal.sh
 
 asan:
     script:
