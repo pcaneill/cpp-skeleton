@@ -23,13 +23,13 @@ endif
 	@(mkdir -p ./build/asan && cd ./build/asan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_ASAN=ON ../../)
 
 ./build/msan/Makefile:
-	@(mkdir -p ./build/msan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCLANG_MSAN=ON ../../)
+	@(mkdir -p ./build/msan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_MSAN=ON ../../)
 
 ./build/tsan/Makefile:
-	@(mkdir -p ./build/tsan && cd ./build/tsan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCLANG_TSAN=ON ../../)
+	@(mkdir -p ./build/tsan && cd ./build/tsan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_TSAN=ON ../../)
 
 ./build/usan/Makefile:
-	@(mkdir -p ./build/usan && cd ./build/usan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCLANG_USAN=ON ../../)
+	@(mkdir -p ./build/usan && cd ./build/usan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_USAN=ON ../../)
 
 ./build/analyzer/Makefile:
 	@(mkdir -p ./build/analyzer && cd ./build/analyzer > /dev/null 2>&1 && scan-build cmake ../../)

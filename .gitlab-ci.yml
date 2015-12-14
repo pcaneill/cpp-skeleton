@@ -6,17 +6,18 @@ normal:
         - make
         - make test
         - cd build/normal
-        - ./src/test/ztests
+        - ./src/lib1/test/lib1_test
         - cd ../../src/
         - touch main.cpp
-        - cd ../build/normal/src
+        - cd ../build/normal/src/lib1
         - make
         - make test
-        - cd ../../../src/test
+        - cd ../../../src/lib1/test
         - touch test.cpp
-        - cd ../../build/normal/src/test
+        - cd ../../build/normal/src/lib1/test
         - make
         - make test
+        - ./lib1_test
 
 asan:
     script:
