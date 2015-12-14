@@ -17,9 +17,10 @@ endif()
 
 option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
 if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-fPIE -fsanitize=memory -fsanitize-memory-track-origins \
+    set (CMAKE_CXX_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins \
                           -fno-omit-frame-pointer -fno-optimize-sibling-calls")
-    set (CMAKE_EXE_LINKER_FLAGS "-pie")
+
+    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # }}}
@@ -36,7 +37,7 @@ endif()
 option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
 if (CLANG_TSAN)
     set (CMAKE_CXX_FLAGS "-fPIE -fsanitize=thread")
-    set (CMAKE_EXE_LINKER_FLAGS "-pie")
+    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # }}}
