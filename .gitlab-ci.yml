@@ -17,7 +17,7 @@ debug:
   script:
     - ./build_tests/normal.sh debug
 
-debug:
+release:
   script:
     - ./build_tests/normal.sh release
 
