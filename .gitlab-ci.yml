@@ -1,30 +1,26 @@
 before_script:
-    - git submodule update --init --recursive
+  - git submodule update --init --recursive
 
 normal:
-    script:
-      - ./build_tests/normal.sh
+  script:
+    - ./build_tests/normal.sh normal
 
 asan:
-    script:
-        - make P=asan
-        - make P=asan test
-
-msan:
-    script:
-        - make P=msan
-        - make P=msan test
+  script:
+    - ./build_tests/normal.sh asan
 
 usan:
-    script:
-        - make P=usan
-        - make P=usan test
+  script:
+    - ./build_tests/normal.sh usan
 
-tsan:
-    script:
-        - make P=tsan
-        - make P=tsan test
+debug:
+  script:
+    - ./build_tests/normal.sh debug
+
+debug:
+  script:
+    - ./build_tests/normal.sh release
 
 analyzer:
-    script:
-        - make P=analyzer
+  script:
+    - make P=analyzer
