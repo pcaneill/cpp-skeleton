@@ -47,6 +47,8 @@ endef
 ./build/analyzer/Makefile:
 	$(call make_build, analyzer, "", scan-build)
 
+# {{{ Target: distclean
+
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
 
@@ -56,7 +58,8 @@ define make_distclean
 
 endef
 
-# {{{ Help
+# }}}
+# {{{ Target: Help
 
 help:
 	@echo "TARGETS"
@@ -89,6 +92,7 @@ help:
 	@echo "Verbose mode: make VERBOSE=1"
 
 # }}}
+# {{{ Target forwarding
 
 ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
@@ -98,3 +102,5 @@ $(MAKECMDGOALS): ./build/${v/profile}/Makefile
 
 endif
 endif
+
+# }}}
