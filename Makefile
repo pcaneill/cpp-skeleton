@@ -10,29 +10,34 @@ else
 	@$(MAKE) -C ./build/$(v/profile)
 endif
 
+define make_build
+	@(mkdir -p ./build/$(strip $(1)))
+	@(cd ./build/$(strip $(1)) && $(3) cmake $(2) ../../)
+endef
+
 ./build/normal/Makefile:
-	@(mkdir -p ./build/normal && cd ./build/normal > /dev/null 2>&1 && cmake ../../)
+	$(call make_build, normal)
 
 ./build/release/Makefile:
-	@(mkdir -p ./build/release && cd ./build/release > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Release ../../)
+	$(call make_build, release, "-DCMAKE_BUILD_TYPE=Release")
 
 ./build/debug/Makefile:
-	@(mkdir -p ./build/debug && cd ./build/debug > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug ../../)
+	$(call make_build, debug, "-DCMAKE_BUILD_TYPE=Debug")
 
 ./build/asan/Makefile:
-	@(mkdir -p ./build/asan && cd ./build/asan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_ASAN=ON ../../)
+	$(call make_build, asan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_ASAN=ON")
 
 ./build/msan/Makefile:
-	@(mkdir -p ./build/msan && cd ./build/msan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_MSAN=ON ../../)
+	$(call make_build, msan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_MSAN=ON")
 
 ./build/tsan/Makefile:
-	@(mkdir -p ./build/tsan && cd ./build/tsan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_TSAN=ON ../../)
+	$(call make_build, tsan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_TSAN=ON")
 
 ./build/usan/Makefile:
-	@(mkdir -p ./build/usan && cd ./build/usan > /dev/null 2>&1 && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_USAN=ON ../../)
+	$(call make_build, usan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_USAN=ON")
 
 ./build/analyzer/Makefile:
-	@(mkdir -p ./build/analyzer && cd ./build/analyzer > /dev/null 2>&1 && scan-build cmake ../../)
+	$(call make_build, analyzer, "", "scan-build")
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
