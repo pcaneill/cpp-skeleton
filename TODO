@@ -6,18 +6,18 @@
    - [DONE] make msan
    - [DONE] make release
    - [DONE] make debug
+   - [DONE] make clang_static_analyzer
    - [TODO] make tags
    - [TODO] make ycm_configuration
    - [TODO] make check (linter, and clang format)
    - [TODO] make lcov
    - [TODO] make benchmark (flamegraph)
    - [TODO] make doc (doxygen or libphenom like)
-   - [TODO] make clang_static_analyzer
-
-* [TODO] Clang-format integration
 
 * [DONE] Have specific build directories depending on the target
-* [TODO] Be able to call make * from any directory
+* [DONE] Be able to call make * from any directory
+* [TODO] Clang-format integration
+* [TODO] Clang-tidy integration
 * [TODO] Check that the license has been added in every files
 * [TODO] Be able to update the licence directly in the makefiles
 * [TODO] Have the documentation of the makefile in a separate file that can be
