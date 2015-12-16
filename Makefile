@@ -1,7 +1,10 @@
 RM = rm -rf
 PROFILES = normal debug release asan msan tsan usan analyzer
 
-v/profile := $(or $(P),$(PROFILE),normal)
+v/profile   := $(or $(P),$(PROFILE),normal)
+b/release   := "-DCMAKE_BUILD_TYPE=Debug"
+b/debug     := "-DCMAKE_BUILD_TYPE=Debug"
+b/use_clang := "-DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang"
 
 all: ./build/$(v/profile)/Makefile
 ifeq (${v/profile},analyzer)
@@ -19,22 +22,22 @@ endef
 	$(call make_build, normal)
 
 ./build/release/Makefile:
-	$(call make_build, release, "-DCMAKE_BUILD_TYPE=Release")
+	$(call make_build, release, "${b/release}")
 
 ./build/debug/Makefile:
-	$(call make_build, debug, "-DCMAKE_BUILD_TYPE=Debug")
+	$(call make_build, debug, "${b/debug}")
 
 ./build/asan/Makefile:
-	$(call make_build, asan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_ASAN=ON")
+	$(call make_build, asan, "${b/release} ${b/use_clang} -DCLANG_ASAN=ON")
 
 ./build/msan/Makefile:
-	$(call make_build, msan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_MSAN=ON")
+	$(call make_build, msan, "${b/release} ${b/use_clang} -DCLANG_MSAN=ON")
 
 ./build/tsan/Makefile:
-	$(call make_build, tsan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_TSAN=ON")
+	$(call make_build, tsan, "${b/release} ${b/use_clang} -DCLANG_TSAN=ON")
 
 ./build/usan/Makefile:
-	$(call make_build, usan, "-DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang -DCLANG_USAN=ON")
+	$(call make_build, usan, "${b/release} ${b/use_clang} -DCLANG_USAN=ON")
 
 ./build/analyzer/Makefile:
 	$(call make_build, analyzer, "", "scan-build")
