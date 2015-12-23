@@ -1,5 +1,5 @@
-#ifndef MAIN_HPP
-#define MAIN_HPP
+#ifndef LIB2_MAIN_HPP
+#define LIB2_MAIN_HPP
 
 namespace lib2
 {

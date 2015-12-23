@@ -1,6 +1,7 @@
 project(lib2)
 
-include_directories(${lib2_SOURCE_DIR}/include/)
+include_directories(${lib2_SOURCE_DIR}/include/
+                    ${lib1_SOURCE_DIR}/include/)
 
 set(SRC main.cpp)
 add_library (lib2 STATIC ${SRC})
