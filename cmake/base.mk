@@ -1,4 +1,5 @@
 RM = rm -rf
+CP = cp
 PROFILES = normal debug release asan msan tsan usan analyzer
 
 v/profile   := $(or $(P),$(PROFILE),normal)
@@ -51,8 +52,8 @@ endef
 
 ycm:
 ifeq (".","${v/root}")
-	$(call make_build, ycm, ${b/use_clang} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
-	@(CP) ./cmake/ycm_extra_conf.py .ycm_extra_conf.py
+	$(call make_build, ycm, -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
 else
 	@echo "ycm target can only be called from the root directory"
 endif
