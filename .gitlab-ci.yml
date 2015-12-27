@@ -24,3 +24,7 @@ release:
 analyzer:
   script:
     - make P=analyzer
+
+ycm:
+  script:
+    - make ycm

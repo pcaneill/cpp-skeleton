@@ -47,10 +47,23 @@ endef
 ./build/analyzer/Makefile:
 	$(call make_build, analyzer, "", scan-build)
 
+# {{{ Target: ycm
+
+ycm:
+ifeq (".","${v/root}")
+	$(call make_build, ycm, ${b/use_clang} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+	@(CP) ./cmake/ycm_extra_conf.py .ycm_extra_conf.py
+else
+	@echo "ycm target can only be called from the root directory"
+endif
+
+# }}}
 # {{{ Target: distclean
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
+	@echo "DISTCLEAN > ycm"
+	@$(RM) ./${v/root}/build/ycm
 
 define make_distclean
 	@echo "DISTCLEAN > $(strip $(1))"
@@ -59,7 +72,7 @@ define make_distclean
 endef
 
 # }}}
-# {{{ Target: Help
+# {{{ Target: help
 
 help:
 	@echo "TARGETS"
@@ -68,6 +81,7 @@ help:
 	@echo "... clean"
 	@echo "... distclean"
 	@echo "... test"
+	@echo "... ycm"
 	@echo ""
 	@echo "PROFILES"
 	@echo "--------"
@@ -92,14 +106,16 @@ help:
 	@echo "Verbose mode: make VERBOSE=1"
 
 # }}}
-# {{{ Target forwarding
+# {{{ Target: forwarding
 
 ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
+ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./build/${v/profile}/Makefile
 	@ $(MAKE) -C ./${v/root}/build/${v/profile}/${v/current} $(MAKECMDGOALS)
 
+endif
 endif
 endif
 
