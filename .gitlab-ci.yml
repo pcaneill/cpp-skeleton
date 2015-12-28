@@ -28,3 +28,7 @@ analyzer:
 ycm:
   script:
     - make ycm
+
+ctags:
+  script:
+    - make ctags

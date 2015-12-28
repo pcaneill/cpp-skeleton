@@ -8,7 +8,8 @@
    - [DONE] make debug
    - [DONE] make clang_static_analyzer
    - [DONE] make ycm_configuration
-   - [TODO] make tags
+   - [DONE] make ctags
+   - [TODO] make rtags
    - [TODO] make check (linter, and clang format)
    - [TODO] make lcov
    - [TODO] make benchmark (flamegraph)

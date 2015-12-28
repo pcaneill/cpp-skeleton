@@ -59,6 +59,16 @@ else
 endif
 
 # }}}
+# {{{ Target: ctags
+
+ctags:
+ifeq (".","${v/root}")
+	@ctags -o .tags
+else
+	@echo "ctags target can only be called from the root directory"
+endif
+
+# }}}
 # {{{ Target: distclean
 
 distclean:
@@ -83,6 +93,7 @@ help:
 	@echo "... distclean"
 	@echo "... test"
 	@echo "... ycm"
+	@echo "... ctags"
 	@echo ""
 	@echo "PROFILES"
 	@echo "--------"
@@ -112,10 +123,12 @@ help:
 ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
 ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
+ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./build/${v/profile}/Makefile
 	@ $(MAKE) -C ./${v/root}/build/${v/profile}/${v/current} $(MAKECMDGOALS)
 
+endif
 endif
 endif
 endif
