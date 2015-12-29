@@ -1,5 +1,6 @@
 RM = rm -rf
 CP = cp
+RTAGS = rc
 PROFILES = normal debug release asan msan tsan usan analyzer
 
 v/profile   := $(or $(P),$(PROFILE),normal)
@@ -61,6 +62,12 @@ ycm: ./build/compile_flags
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
 
 # }}}
+# {{{ Target: rtags
+
+rtags: ./build/compile_flags
+	@$(RTAGS) -J build/compile_flags/
+
+# }}}
 # {{{ Target: ctags
 
 ctags: ./build/compile_flags
@@ -92,6 +99,7 @@ help:
 	@echo "... test"
 	@echo "... ycm"
 	@echo "... ctags"
+	@echo "... rtags"
 	@echo ""
 	@echo "PROFILES"
 	@echo "--------"
@@ -122,10 +130,12 @@ ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
 ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
 ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
+ifeq ($(findstring rtags,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./build/${v/profile}/Makefile
 	@ $(MAKE) -C ./${v/root}/build/${v/profile}/${v/current} $(MAKECMDGOALS)
 
+endif
 endif
 endif
 endif
