@@ -25,10 +25,8 @@ analyzer:
   script:
     - make P=analyzer
 
-ycm:
-  script:
-    - make ycm
-
-ctags:
+tools:
   script:
     - make ctags
+    - make rtags
+    - make ycm
