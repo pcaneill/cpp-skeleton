@@ -48,33 +48,31 @@ endef
 ./build/analyzer/Makefile:
 	$(call make_build, analyzer, "", scan-build)
 
+./build/compile_flags:
+ifeq (".","${v/root}")
+	$(call make_build, compile_flags, -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+else
+	$(error this target can only be called from the root directory)
+endif
+
 # {{{ Target: ycm
 
-ycm:
-ifeq (".","${v/root}")
-	$(call make_build, ycm, -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+ycm: ./build/compile_flags
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
-else
-	@echo "ycm target can only be called from the root directory"
-endif
 
 # }}}
 # {{{ Target: ctags
 
-ctags:
-ifeq (".","${v/root}")
+ctags: ./build/compile_flags
 	@ctags -o .tags
-else
-	@echo "ctags target can only be called from the root directory"
-endif
 
 # }}}
 # {{{ Target: distclean
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
-	@echo "DISTCLEAN > ycm"
-	@$(RM) ./${v/root}/build/ycm
+	@echo "DISTCLEAN > compile_flags"
+	@$(RM) ./${v/root}/build/compile_flags
 
 define make_distclean
 	@echo "DISTCLEAN > $(strip $(1))"
