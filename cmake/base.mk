@@ -51,7 +51,7 @@ endef
 
 ./build/compile_flags:
 ifeq (".","${v/root}")
-	$(call make_build, compile_flags, -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+	$(call make_build, compile_flags, ${b/use_clang} ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
 else
 	$(error this target can only be called from the root directory)
 endif
