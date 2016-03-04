@@ -23,3 +23,4 @@
 * [TODO] Be able to update the licence directly in the makefiles
 * [TODO] Have the documentation of the makefile in a separate file that can be
          read within the browser (markdown for example)
+* [TODO] Automatically creates the Makefiles for the directories under src
