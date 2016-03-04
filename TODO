@@ -10,6 +10,7 @@
    - [DONE] make ycm_configuration
    - [DONE] make ctags
    - [DONE] make rtags
+   - [TODO] make test valgrind
    - [TODO] make check (linter, and clang format)
    - [TODO] make lcov
    - [TODO] make benchmark (flamegraph)
