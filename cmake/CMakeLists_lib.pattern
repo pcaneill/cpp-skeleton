@@ -1,0 +1,13 @@
+project(_PROJECT_)
+
+include_directories(${_PROJECT__SOURCE_DIR}/include/)
+include_directories(${_PROJECT__SOURCE_DIR}/)
+
+file (GLOB_RECURSE SRC 
+  _DIRECTORIES_
+)
+
+add_library (_PROJECT_ STATIC ${SRC})
+target_link_libraries(_PROJECT_)
+
+add_subdirectory(test)

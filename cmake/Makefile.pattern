@@ -1,0 +1,3 @@
+v/root    := _ROOT_
+v/current := _CURRENT_
+include ${_ROOT_}/cmake/base.mk
