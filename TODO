@@ -10,10 +10,10 @@
 * [DONE] make clang_static_analyzer
 * [DONE] make ycm_configuration
 * [DONE] make ctags
+* [DONE] make lcov
 * [DONE] make rtags
 * [TODO] make test valgrind
 * [TODO] make check (linter, and clang format)
-* [TODO] make lcov
 * [TODO] make benchmark (flamegraph)
 * [TODO] make doc (doxygen or libphenom like)
 * [TODO] make tidy (Clang-tidy integration)

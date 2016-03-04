@@ -26,7 +26,7 @@ define make_build
 endef
 
 ./build/normal/Makefile:
-	$(call make_build, normal)
+	$(call make_build, normal, ${b/debug})
 
 ./build/release/Makefile:
 	$(call make_build, release, ${b/release})

@@ -41,6 +41,20 @@ if (CLANG_TSAN)
 endif()
 
 # }}}
+# {{{ coverage
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  include (cmake/CodeCoverage.cmake)
+  SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  setup_target_for_coverage (
+    coverage
+    ""
+    ./coverage
+  )
+endif ()
+
+# }}}
 # }}}
 # {{{ Third Parties
 # {{{ GoogleTest
