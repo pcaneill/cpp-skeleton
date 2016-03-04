@@ -31,3 +31,44 @@
 
 * [TODO] Automatically creates the Makefiles for the directories under src
 * [TODO] Automatically creates the CMakeLists for the directories under src
+* [TODO] Copy the executales in the directory
+
+## Work C++
+
+workc++ project name [libs]
+    * Initialize a new git repository
+    * Import the build system with GoogleTest
+
+workc++ lib name subdirectories
+    * Must be executed in project/src/
+    * Create a new library
+    * Create library/include/library
+    * Create library/test
+    * Initialize CMakeLists and Makefile
+
+workc++ dir [dirs]
+    * Must be executed in project/lib/
+    * Create a new directory
+    * Create directory under library/include/library/dir
+    * Create directory under library/dir
+    * Update CMakeLists
+    * Insert Makefile
+
+workc++ file
+    * Must be executed in project/lib project/lib/dir project/lib/test
+    * Update CMakeLists
+
+workc++ check
+    * Check the coherency of the file layout
+
+workc++ clean
+    * Remove every Makefiles and CMakeLists
+
+workc++ init
+    * Insert Makefiles and CMakeLists
+
+workc++ export libs
+    * Export the build to the real sources
+
+workc++ import [path]
+    * Import a library from the real sources
