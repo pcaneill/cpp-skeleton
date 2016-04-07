@@ -103,17 +103,16 @@ add_compile_options (
  -std=c++14
 # Warnings
  -Wall
+ -Wextra
+ -Werror
  -Wcast-align
  -Wcast-qual
  -Wchar-subscripts
  -Wenum-compare
- -Werror
- -Wextra
  -Wformat-nonliteral
- -Wformat=2
+ -Wmissing-format-attribute
  -Winit-self
  -Wmissing-declarations
- -Wmissing-format-attribute
  -Wmissing-include-dirs
  -Wno-error=deprecated-declarations
  -Wno-format-y2k
@@ -122,14 +121,12 @@ add_compile_options (
  -Wparentheses
  -Wpointer-arith
  -Wredundant-decls
- -Wredundant-decls
  -Wsequence-point
  -Wshadow
  -Wsign-compare
  -Wswitch-default
  -Wuninitialized
  -Wunused
- -Wwrite-strings
  -Wwrite-strings
 # Auto vectorization
  -ftree-vectorize
