@@ -6,8 +6,8 @@ make P=$1
 make P=$1 test
 
 # Run the tests manually
-./build/$1/src/lib1/test/lib1_test
-./build/$1/src/lib2/test/lib2_test
+./.build/$1/src/lib1/test/lib1_test
+./.build/$1/src/lib2/test/lib2_test
 
 # TODO: find a way to check that the file has been compiled
 # Touch a file to test incremental build
@@ -25,5 +25,5 @@ make P=$1 test
 cd ../../../
 
 # Run the tests manually
-./build/$1/src/lib1/test/lib1_test
-./build/$1/src/lib2/test/lib2_test
+./.build/$1/src/lib1/test/lib1_test
+./.build/$1/src/lib2/test/lib2_test
