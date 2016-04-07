@@ -4,6 +4,7 @@ RTAGS = rc
 PROFILES = normal debug release asan msan tsan usan analyzer
 
 v/build     := .build
+v/generator := Unix Makefiles
 v/profile   := $(or $(P),$(PROFILE),normal)
 b/release   := -DCMAKE_BUILD_TYPE=Release
 b/debug     := -DCMAKE_BUILD_TYPE=Debug
@@ -22,7 +23,7 @@ endif
 # $3: Prefix command before executing cmake (exe:scan-build)
 define make_build
 	@(mkdir -p ./${v/root}/${v/build}/$(strip $(1)))
-	@(cd ./${v/root}/${v/build}/$(strip $(1)) && $(3) cmake $(2) ../../)
+	@(cd ./${v/root}/${v/build}/$(strip $(1)) && $(3) cmake $(2) -G "${v/generator}" ../../)
 
 endef
 
