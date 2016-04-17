@@ -1,5 +1,6 @@
 RM = rm -rf
 CP = cp
+SED = sed
 RTAGS = rc
 PROFILES = normal debug release asan msan tsan usan analyzer
 
@@ -62,6 +63,7 @@ endif
 
 ycm: ./${v/build}/compile_flags
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
+	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
 
 # }}}
 # {{{ Target: rtags

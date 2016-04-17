@@ -18,7 +18,7 @@ flags = [
 #
 # Most projects will NOT need to set this to anything; you can just change the
 # 'flags' list of compilation flags. Notice that YCM itself uses that approach.
-compilation_database_folder = os.path.dirname(os.path.realpath(__file__)) + '/build/compile_flags/'
+compilation_database_folder = os.path.dirname(os.path.realpath(__file__)) + '/__BUILD__/compile_flags/'
 
 if os.path.exists( compilation_database_folder ):
   database = ycm_core.CompilationDatabase( compilation_database_folder )
