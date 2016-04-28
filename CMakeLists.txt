@@ -45,6 +45,15 @@ if (CLANG_TSAN)
 endif()
 
 # }}}
+# {{{ csan: Clang CoverageSanitizer
+
+option(CLANG_CSAN "Enable Clang CoverageSanitizer"    OFF)
+if (CLANG_CSAN)
+  message(STATUS "Using Clang CoverageSanitizer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize-coverage=func -fsanitize-coverage=edge")
+endif()
+
+# }}}
 # {{{ coverage
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
