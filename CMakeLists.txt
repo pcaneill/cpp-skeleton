@@ -5,54 +5,57 @@ project(cppskeleton)
 include(ExternalProject)
 
 # {{{ Targets
-# {{{ asan: Clang address sanitizer
+# {{{ asan: Clang AddressSanitizer
 
-option(CLANG_ASAN "Enable Clang address sanitizer"   OFF)
+option(CLANG_ASAN "Enable Clang AddressSanitizer"   OFF)
 if (CLANG_ASAN)
-    set (CMAKE_CXX_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
+  message(STATUS "Using Clang AddressSanitizer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
 endif()
 
 # }}}
-# {{{ msan: Clang memory sanitizer
+# {{{ msan: Clang MemorySanitizer
 
-option(CLANG_MSAN "Enable Clang memory sanitizer"    OFF)
+option(CLANG_MSAN "Enable Clang MemorySanitizer"    OFF)
 if (CLANG_MSAN)
-    set (CMAKE_CXX_FLAGS "-fsanitize=memory -fsanitize-memory-track-origins \
-                          -fno-omit-frame-pointer -fno-optimize-sibling-calls")
+  message(STATUS "Using Clang MemorySanitizer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory -fsanitize-memory-track-origins \
+                                          -fno-omit-frame-pointer -fno-optimize-sibling-calls")
 
-    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # }}}
-# {{{ usan: Clang undefined sanitizer
+# {{{ usan: Clang UndefinedBehaviorSanitizer
 
-option(CLANG_USAN "Enable Clang undefined sanitizer" OFF)
+option(CLANG_USAN "Enable Clang UndefinedBehaviorSanitizer" OFF)
 if (CLANG_USAN)
-    set (CMAKE_CXX_FLAGS "-fsanitize=undefined")
+  message(STATUS "Using Clang UndefinedBehaviorSanitizer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
 endif()
 
 # }}}
-# {{{ tsan: Clang thread sanitizer
+# {{{ tsan: Clang ThreadSanitizer
 
-option(CLANG_TSAN "Enable Clang thread sanitizer"    OFF)
+option(CLANG_TSAN "Enable Clang ThreadSanitizer"    OFF)
 if (CLANG_TSAN)
-    set (CMAKE_CXX_FLAGS "-fPIE -fsanitize=thread")
-    set (CMAKE_POSITION_INDEPENDENT_CODE ON)
+  message(STATUS "Using Clang ThreadSanitizer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fsanitize=thread")
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
 # }}}
 # {{{ coverage
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  include (cmake/CodeCoverage.cmake)
-  SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-  SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  include(cmake/CodeCoverage.cmake)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O1 -fprofile-arcs -ftest-coverage")
   setup_target_for_coverage (
     coverage
     ""
     ./coverage
   )
-endif ()
+endif()
 
 # }}}
 # }}}
