@@ -35,24 +35,24 @@ CMakeLists.txt files.
 
 ## Project Architecture
 
-   src/
-    |--- lib1
-    |     |--- include
-    |     |     |--- lib1
-    |     |           |--- subdirectory1
-    |     |           |     |--- public_header.hpp
-    |     |           |--- subdirectory2
-    |     |                 |--- public_header.hpp
-    |     |--- subdirectory1
-    |     |     |--- private_header.hpp
-    |     |     |--- files.cpp
-    |     |--- subdirectory2
-    |     |     |--- private_header.hpp
-    |     |     |--- files.cpp
-    |     |--- test
-    |     |     |--- test.hpp
-    |     |     |--- test.cpp
-    |
-    |--- lib2
+    src/
+     |--- lib1
+     |     |--- include
+     |     |     |--- lib1
+     |     |           |--- subdirectory1
+     |     |           |     |--- public_header.hpp
+     |     |           |--- subdirectory2
+     |     |                 |--- public_header.hpp
+     |     |--- subdirectory1
+     |     |     |--- private_header.hpp
+     |     |     |--- files.cpp
+     |     |--- subdirectory2
+     |     |     |--- private_header.hpp
+     |     |     |--- files.cpp
+     |     |--- test
+     |     |     |--- test.hpp
+     |     |     |--- test.cpp
+     |
+     |--- lib2
 
 
