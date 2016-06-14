@@ -25,6 +25,7 @@
 * [TODO] Make it compatible with other CMake generators
 * [TODO] Make it compatible to have cppskeleton as an external thridparties
          and as an internal thridparties
+* [TODO] Add configuration (cppflags)
 
 ## Copyrights
 
