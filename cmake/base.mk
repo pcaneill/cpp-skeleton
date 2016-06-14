@@ -1,3 +1,5 @@
+# {{{ Variables
+
 RM = rm -rf
 CP = cp
 SED = sed
@@ -10,6 +12,8 @@ v/profile   := $(or $(P),$(PROFILE),normal)
 b/release   := -DCMAKE_BUILD_TYPE=Release
 b/debug     := -DCMAKE_BUILD_TYPE=Debug
 b/use_clang := -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
+
+# }}}
 
 all: ./${v/build}/$(v/profile)/Makefile
 ifeq (${v/profile},analyzer)

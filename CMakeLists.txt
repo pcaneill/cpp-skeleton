@@ -155,8 +155,68 @@ add_compile_options (
  )
 
  # }}}
+ # {{{ Helper Functions
 
-# CMake Test generation (Will use the CTest module)
-enable_testing()
+ # cpp_add_test()
+ #    Creates 2 test executable:
+ #        * 1 that will be used by CTest to run all the tests
+ #        * 1 that will be copied where the test sources are in order to
+ #          easily run the test from a terminal.
+ #          All the test executable that will be copied will be name ctest
+ #          Example:
+ #                valgrind ./ctest
+ #                perf ./ctest
+ #                ./ctest args
+ #
+ # Param NAME         The name of the test
+ # Param PATH         The path of the sources of the test
+ # Param SOURCES      The list of files required by the test executable
+ # Param TEST_LIB     The libraries that are under tests
+ # Param EXTERNAL_LIB The libraries that are needed to link the executable
+function(cpp_add_test)
+   set (options OPTIONAL)
+   set (oneValueArgs NAME PATH)
+   set (multiValueArgs SOURCES TEST_LIB EXTERNAL_LIB)
+   cmake_parse_arguments(test
+      "${options}"
+      "${oneValueArgs}"
+      "${multiValueArgs}"
+      ${ARGN}
+   )
+   message (STATUS "Adding a new test: ${test_NAME}")
+   message (STATUS "Path: ${test_PATH}")
+   message (STATUS "Sources: ${test_SOURCES}")
+   message (STATUS "Libraries: ${test_TEST_LIB}")
+   message (STATUS "ThirdParties: ${test_EXTERNAL_LIB}")
+   add_executable (${test_NAME} ${test_SOURCES})
+   target_link_libraries (${test_NAME}
+      -Xlinker --whole-archive ${test_TEST_LIB}
+      -Xlinker --no-whole-archive ${test_EXTERNAL_LIB}
+   )
+   set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${test_PATH})
+   cmake_policy (SET CMP0002 OLD)
+   add_executable (ctest ${test_SOURCES})
+   cmake_policy (SET CMP0002 NEW)
+   target_link_libraries (ctest
+      -Xlinker --whole-archive ${test_TEST_LIB}
+      -Xlinker --no-whole-archive ${test_EXTERNAL_LIB}
+   )
+   add_test (
+      NAME ${test_NAME}
+      COMMAND ${test_NAME}
+   )
+endfunction(cpp_add_test)
+
+# }}}
+
+include (CTest)
+
+add_custom_target(valgrind_all_multithreaded
+   COMMAND ctest --output-on-failure -j 4 -D ExperimentalMemCheck
+)
+
+add_custom_target(valgrind
+   COMMAND ctest --output-on-failure -D ExperimentalMemCheck
+)
 
 add_subdirectory(src)

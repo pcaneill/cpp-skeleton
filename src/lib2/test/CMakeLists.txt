@@ -1,13 +1,11 @@
 project(lib2_test)
 
-set(TESTS_SRC test.cpp)
-add_executable (lib2_test ${TESTS_SRC})
-target_link_libraries (lib2_test
-  -Xlinker --whole-archive    lib2 lib1
-  -Xlinker --no-whole-archive libgtest libgtest_main
-)
+file (GLOB TESTS_SRC *.cpp)
 
-add_test(
-  NAME lib2_test
-  COMMAND lib2_test
+cpp_add_test(
+   NAME lib2_test
+   PATH ${lib2_test_SOURCE_DIR}
+   SOURCES ${TESTS_SRC}
+   TEST_LIB lib2
+   EXTERNAL_LIB lib1 libgtest libgtest_main
 )
