@@ -1,7 +1,7 @@
 ## Targets
 
 * [DONE] make test
-* [DONE] make asan (https://github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo)
+* [DONE] make asan (github.com/google/sanitizers/wiki/MemorySanitizerLibcxxHowTo)
 * [DONE] make tsan
 * [DONE] make ubsan
 * [DONE] make msan
@@ -12,7 +12,7 @@
 * [DONE] make ctags
 * [DONE] make lcov
 * [DONE] make rtags
-* [TODO] make test valgrind
+* [DONE] make valgrind
 * [TODO] make check (linter, and clang format)
 * [TODO] make benchmark (flamegraph)
 * [TODO] make doc (doxygen or libphenom like)
@@ -22,53 +22,22 @@
 
 * [DONE] Have specific build directories depending on the target
 * [DONE] Be able to call make * from any directory
+* [TODO] Make it compatible with other CMake generators
+* [TODO] Make it compatible to have cppskeleton as an external thridparties
+         and as an internal thridparties
+
+## Copyrights
+
 * [TODO] Check that the license has been added in every files
 * [TODO] Be able to update the licence directly in the makefiles
+
+## Documentation
+
 * [TODO] Have the documentation of the makefile in a separate file that can be
          read within the browser (markdown for example)
 
 ## User Experience
 
+* [DONE] Copy the executales in the directory
 * [TODO] Automatically creates the Makefiles for the directories under src
 * [TODO] Automatically creates the CMakeLists for the directories under src
-* [TODO] Copy the executales in the directory
-
-## Work C++
-
-workc++ project name [libs]
-    * Initialize a new git repository
-    * Import the build system with GoogleTest
-
-workc++ lib name subdirectories
-    * Must be executed in project/src/
-    * Create a new library
-    * Create library/include/library
-    * Create library/test
-    * Initialize CMakeLists and Makefile
-
-workc++ dir [dirs]
-    * Must be executed in project/lib/
-    * Create a new directory
-    * Create directory under library/include/library/dir
-    * Create directory under library/dir
-    * Update CMakeLists
-    * Insert Makefile
-
-workc++ file
-    * Must be executed in project/lib project/lib/dir project/lib/test
-    * Update CMakeLists
-
-workc++ check
-    * Check the coherency of the file layout
-
-workc++ clean
-    * Remove every Makefiles and CMakeLists
-
-workc++ init
-    * Insert Makefiles and CMakeLists
-
-workc++ export libs
-    * Export the build to the real sources
-
-workc++ import [path]
-    * Import a library from the real sources

@@ -2,33 +2,31 @@
 
 ## Why?
 
-When working on small libs, or small personal projects, I don't want to worry
-about how I will build it.
-But I still want to have all my tools (coverage, ide, sanitizers ...).
-Moreover, if I take time to add a new cool feature on the build system, like for
-example, the possibility to use sanitizers, I want all my project to have that
-cool feature.
-
-This is here C++ skeleton comes in:
- * One Build System
- * That updates itself.
- * That can be use in many projects
-
-But lets not get head of ourself, I am not trying to rewrite everything from
-scratch. The idea is to have a "fixed project architecture" and autogenerate
-CMakeLists.txt files.
+Have a complete ready to go C/C++ for small and personal projects that can be
+easily updated in order to have all projects inherits from the new features.
 
 ## Features
 
+* Tests
+    - UnitTest with GoogleTest:
+         + CTest to run all the tests
+         + Executable copied directly in lib/test in order to easily
+           use the binary with valgrind or filtering tests.
+
+* Static Analysis
+
+    - ClangAnalyzer
+
 * Sanitizers:
-     - AdressSanitizer
-     - MemorySanitizer
-     - ThreadSanitizer
-     - UndefinedBehaviorSanitizer
+
+    - AdressSanitizer
+    - MemorySanitizer
+    - ThreadSanitizer
+    - UndefinedBehaviorSanitizer
 
 * Coverage with lcov
 
-* IDE:
+* IDE features:
     - YouCompleteMe
     - rtags
     - ctags
