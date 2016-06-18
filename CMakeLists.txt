@@ -181,7 +181,7 @@ function(cpp_add_test)
       "${options}"
       "${oneValueArgs}"
       "${multiValueArgs}"
-      ${ARGN}
+       ${ARGN}
    )
    message (STATUS "Adding a new test: ${test_NAME}")
    message (STATUS "Path: ${test_PATH}")
@@ -206,6 +206,38 @@ function(cpp_add_test)
       COMMAND ${test_NAME}
    )
 endfunction(cpp_add_test)
+
+# cpp_add_lib()
+#   Creates a new library
+#
+# Param NAME The name of the library (usually the same as the project)
+# Param PATH The path of the sources of the lib
+# Param SOURCES The list of source file required by the lib
+# Param TEST True if the lib has some test in a test folder
+function(cpp_add_lib)
+  set (options OPTIONAL)
+  set (oneValueArgs NAME TEST PATH INTERNAL_DEP)
+  set (multiValueArgs SOURCES)
+  cmake_parse_arguments(lib
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+     ${ARGN}
+   )
+  message (STATUS "Adding a new lib: ${lib_NAME} (tested: ${lib_TEST})")
+
+  project(${lib_NAME})
+  include_directories(${lib_PATH}/include)
+  include_directories(${lib_PATH}/)
+  #include_directories(${lib_INTERNAL_DEP})
+  #if (${lib_INTERNAL_DEP})
+  #  include_directories(${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
+  #  message (STATUS "${${lib_INTERNAL_DEP}_SOURCE_DIR}/include")
+  #endif()
+  add_library(${lib_NAME} STATIC ${lib_SOURCES})
+  target_link_libraries(${lib_NAME})
+  add_subdirectory(${lib_TEST})
+endfunction(cpp_add_lib)
 
 # }}}
 
