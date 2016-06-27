@@ -222,11 +222,11 @@ endfunction(cpp_add_test)
 # Param NAME The name of the library (usually the same as the project)
 # Param PATH The path of the sources of the lib
 # Param SOURCES The list of source file required by the lib
-# Param TEST True if the lib has some test in a test folder
+# Param TEST_SRC The list of source file which test the library
 function(cpp_add_lib)
   set (options OPTIONAL)
   set (oneValueArgs NAME TEST PATH INTERNAL_DEP)
-  set (multiValueArgs SOURCES)
+  set (multiValueArgs SOURCES TEST_SRC EXTERNAL_DEP)
   cmake_parse_arguments(lib
     "${options}"
     "${oneValueArgs}"
@@ -246,7 +246,15 @@ function(cpp_add_lib)
 
   add_library(${lib_NAME} STATIC ${lib_SOURCES})
   target_link_libraries(${lib_NAME})
-  add_subdirectory(${lib_TEST})
+  cpp_add_test(
+    NAME "${lib_NAME}_test"
+    PATH "${lib_PATH}/test"
+    SOURCES "${lib_TEST_SRC}"
+    TEST_LIB "${lib_NAME}"
+    INTERNAL_LIB "${lib_INTERNAL_DEP}"
+    EXTERNAL_LIB "${lib_EXTERNAL_DEP}"
+
+  )
 endfunction(cpp_add_lib)
 
 # }}}
