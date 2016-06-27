@@ -178,7 +178,7 @@ add_compile_options (
 function(cpp_add_test)
    set (options OPTIONAL)
    set (oneValueArgs NAME PATH)
-   set (multiValueArgs SOURCES TEST_LIB EXTERNAL_LIB INTERNAL_LIB)
+   set (multiValueArgs SOURCES LIB EXTERNAL_DEP INTERNAL_DEP)
    cmake_parse_arguments(test
       "${options}"
       "${oneValueArgs}"
@@ -188,13 +188,14 @@ function(cpp_add_test)
    message (STATUS "Adding a new test: ${test_NAME}")
    message (STATUS "Path: ${test_PATH}")
    message (STATUS "Sources: ${test_SOURCES}")
-   message (STATUS "Libraries: ${test_TEST_LIB}")
-   message (STATUS "ThirdParties: ${test_EXTERNAL_LIB}")
+   message (STATUS "Libraries: ${test_LIB}")
+   message (STATUS "InternalDep: ${test_INTERNAL_DEP}")
+   message (STATUS "ThirdParties: ${test_EXTERNAL_DEP}")
 
    add_executable (${test_NAME} ${test_SOURCES})
    target_link_libraries (${test_NAME}
-      -Xlinker --whole-archive ${test_TEST_LIB}
-      -Xlinker --no-whole-archive ${test_INTERNAL_LIB} ${test_EXTERNAL_LIB}
+      -Xlinker --whole-archive ${test_LIB}
+      -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
                                   libgtest libgtest_main
    )
    # TODO Can we get automatically the current path?
@@ -203,8 +204,8 @@ function(cpp_add_test)
    add_executable (ctest ${test_SOURCES})
    cmake_policy (SET CMP0002 NEW)
    target_link_libraries (ctest
-      -Xlinker --whole-archive ${test_TEST_LIB}
-      -Xlinker --no-whole-archive ${test_INTERNAL_LIB} ${test_EXTERNAL_LIB}
+      -Xlinker --whole-archive ${test_LIB}
+      -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
                                   libgtest libgtest_main
    )
    add_test (
@@ -249,10 +250,9 @@ function(cpp_add_lib)
     NAME "${lib_NAME}_test"
     PATH "${lib_PATH}/test"
     SOURCES "${lib_TEST_SRC}"
-    TEST_LIB "${lib_NAME}"
-    INTERNAL_LIB "${lib_INTERNAL_DEP}"
-    EXTERNAL_LIB "${lib_EXTERNAL_DEP}"
-
+    LIB "${lib_NAME}"
+    INTERNAL_DEP "${lib_INTERNAL_DEP}"
+    EXTERNAL_DEP "${lib_EXTERNAL_DEP}"
   )
 endfunction(cpp_add_lib)
 
