@@ -223,15 +223,15 @@ endfunction(cpp_add_test)
 # Param TEST_SRC The list of source file which test the library
 function(cpp_add_lib)
   set (options OPTIONAL)
-  set (oneValueArgs NAME TEST PATH INTERNAL_DEP)
-  set (multiValueArgs SRC TEST_SRC EXTERNAL_DEP)
+  set (oneValueArgs NAME PATH)
+  set (multiValueArgs SRC TEST_SRC INTERNAL_DEP EXTERNAL_DEP)
   cmake_parse_arguments(lib
     "${options}"
     "${oneValueArgs}"
     "${multiValueArgs}"
      ${ARGN}
    )
-  message (STATUS "Adding a new lib: ${lib_NAME} (tested: ${lib_TEST})")
+  message (STATUS "Adding a new lib: ${lib_NAME}")
 
   project(${lib_NAME})
 
@@ -255,6 +255,33 @@ function(cpp_add_lib)
     EXTERNAL_DEP "${lib_EXTERNAL_DEP}"
   )
 endfunction(cpp_add_lib)
+
+function(cpp_add_lib_glob)
+  set (options OPTIONAL)
+  set (oneValueArgs NAME PATH)
+  set (multiValueArgs SRC_PATTERN SRC_TEST_PATTERN INTERNAL_DEP EXTERNAL_DEP)
+  cmake_parse_arguments(lib
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+     ${ARGN}
+  )
+
+ file(GLOB_RECURSE SRC ${lib_SRC_PATTERN})
+ file(GLOB_RECURSE TEST_SRC ${lib_SRC_TEST_PATTERN})
+
+ message (STATUS "SRC ${SRC}")
+ message (STATUS "TEST_SRC ${TEST_SRC}")
+
+ cpp_add_lib(
+   NAME ${lib_NAME}
+   PATH ${lib_PATH}
+   SRC ${SRC}
+   TEST_SRC ${TEST_SRC}
+   INTERNAL_DEP ${lib_INTERNAL_DEP}
+   EXTERNAL_DEP ${lib_EXTERNAL_DEP}
+ )
+endfunction(cpp_add_lib_glob)
 
 # }}}
 

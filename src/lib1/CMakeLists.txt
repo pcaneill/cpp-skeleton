@@ -1,12 +1,8 @@
 project(lib1)
 
-file (GLOB_RECURSE SRC sub1/*.cpp sub2/*.cpp)
-file (GLOB TESTS_SRC test/*.cpp)
-
-cpp_add_lib(
+cpp_add_lib_glob(
   NAME lib1
-  TEST test
-  PATH ${lib1_SOURCE_DIR}
-  SRC ${SRC}
-  TEST_SRC ${TESTS_SRC}
+  PATH "${lib1_SOURCE_DIR}"
+  SRC_PATTERN sub1/*.cpp sub2/*.cpp
+  SRC_TEST_PATTERN test/*.cpp
 )
