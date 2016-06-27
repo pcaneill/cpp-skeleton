@@ -7,5 +7,5 @@ cpp_add_test(
    PATH ${lib2_test_SOURCE_DIR}
    SOURCES ${TESTS_SRC}
    TEST_LIB lib2
-   EXTERNAL_LIB lib1 libgtest libgtest_main
+   INTERNAL_LIB lib1
 )

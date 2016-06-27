@@ -7,5 +7,4 @@ cpp_add_test (
    PATH ${lib1_test_SOURCE_DIR}
    SOURCES ${TESTS_SRC}
    TEST_LIB lib1
-   EXTERNAL_LIB libgtest libgtest_main
 )

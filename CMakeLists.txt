@@ -172,11 +172,13 @@ add_compile_options (
  # Param PATH         The path of the sources of the test
  # Param SOURCES      The list of files required by the test executable
  # Param TEST_LIB     The libraries that are under tests
- # Param EXTERNAL_LIB The libraries that are needed to link the executable
+ # Param INTERNAL_LIB The libraries that are internal to the project that are
+ #                    needed to link the executable
+ # Param EXTERNAL_LIB The thirdparties that are needed to link the executable
 function(cpp_add_test)
    set (options OPTIONAL)
    set (oneValueArgs NAME PATH)
-   set (multiValueArgs SOURCES TEST_LIB EXTERNAL_LIB)
+   set (multiValueArgs SOURCES TEST_LIB EXTERNAL_LIB INTERNAL_LIB)
    cmake_parse_arguments(test
       "${options}"
       "${oneValueArgs}"
@@ -188,10 +190,16 @@ function(cpp_add_test)
    message (STATUS "Sources: ${test_SOURCES}")
    message (STATUS "Libraries: ${test_TEST_LIB}")
    message (STATUS "ThirdParties: ${test_EXTERNAL_LIB}")
+
+   # TODO for_each
+   if (test_INTERNAL_LIB)
+     include_directories(${${test_INTERNAL_LIB}_SOURCE_DIR}/include)
+   endif()
    add_executable (${test_NAME} ${test_SOURCES})
    target_link_libraries (${test_NAME}
       -Xlinker --whole-archive ${test_TEST_LIB}
-      -Xlinker --no-whole-archive ${test_EXTERNAL_LIB}
+      -Xlinker --no-whole-archive ${test_INTERNAL_LIB} ${test_EXTERNAL_LIB}
+                                  libgtest libgtest_main
    )
    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${test_PATH})
    cmake_policy (SET CMP0002 OLD)
@@ -199,7 +207,8 @@ function(cpp_add_test)
    cmake_policy (SET CMP0002 NEW)
    target_link_libraries (ctest
       -Xlinker --whole-archive ${test_TEST_LIB}
-      -Xlinker --no-whole-archive ${test_EXTERNAL_LIB}
+      -Xlinker --no-whole-archive ${test_INTERNAL_LIB} ${test_EXTERNAL_LIB}
+                                  libgtest libgtest_main
    )
    add_test (
       NAME ${test_NAME}
@@ -229,11 +238,12 @@ function(cpp_add_lib)
   project(${lib_NAME})
   include_directories(${lib_PATH}/include)
   include_directories(${lib_PATH}/)
-  #include_directories(${lib_INTERNAL_DEP})
-  #if (${lib_INTERNAL_DEP})
-  #  include_directories(${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
-  #  message (STATUS "${${lib_INTERNAL_DEP}_SOURCE_DIR}/include")
-  #endif()
+
+  # TODO for_each
+  if (${lib_INTERNAL_DEP})
+    include_directories(${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
+  endif()
+
   add_library(${lib_NAME} STATIC ${lib_SOURCES})
   target_link_libraries(${lib_NAME})
   add_subdirectory(${lib_TEST})
