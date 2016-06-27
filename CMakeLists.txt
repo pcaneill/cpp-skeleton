@@ -191,16 +191,13 @@ function(cpp_add_test)
    message (STATUS "Libraries: ${test_TEST_LIB}")
    message (STATUS "ThirdParties: ${test_EXTERNAL_LIB}")
 
-   # TODO for_each
-   if (test_INTERNAL_LIB)
-     include_directories(${${test_INTERNAL_LIB}_SOURCE_DIR}/include)
-   endif()
    add_executable (${test_NAME} ${test_SOURCES})
    target_link_libraries (${test_NAME}
       -Xlinker --whole-archive ${test_TEST_LIB}
       -Xlinker --no-whole-archive ${test_INTERNAL_LIB} ${test_EXTERNAL_LIB}
                                   libgtest libgtest_main
    )
+   # TODO Can we get automatically the current path?
    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${test_PATH})
    cmake_policy (SET CMP0002 OLD)
    add_executable (ctest ${test_SOURCES})
@@ -236,11 +233,13 @@ function(cpp_add_lib)
   message (STATUS "Adding a new lib: ${lib_NAME} (tested: ${lib_TEST})")
 
   project(${lib_NAME})
+
+  # TODO Can we get automatically the current path?
   include_directories(${lib_PATH}/include)
   include_directories(${lib_PATH}/)
 
   # TODO for_each
-  if (${lib_INTERNAL_DEP})
+  if (lib_INTERNAL_DEP)
     include_directories(${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
   endif()
 
