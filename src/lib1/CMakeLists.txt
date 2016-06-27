@@ -7,6 +7,6 @@ cpp_add_lib(
   NAME lib1
   TEST test
   PATH ${lib1_SOURCE_DIR}
-  SOURCES ${SRC}
+  SRC ${SRC}
   TEST_SRC ${TESTS_SRC}
 )

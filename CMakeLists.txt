@@ -170,15 +170,15 @@ add_compile_options (
  #
  # Param NAME         The name of the test
  # Param PATH         The path of the sources of the test
- # Param SOURCES      The list of files required by the test executable
- # Param TEST_LIB     The libraries that are under tests
- # Param INTERNAL_LIB The libraries that are internal to the project that are
+ # Param SRC          The list of files required by the test executable
+ # Param LIB          The libraries that are under tests
+ # Param INTERNAL_DEP The libraries that are internal to the project that are
  #                    needed to link the executable
- # Param EXTERNAL_LIB The thirdparties that are needed to link the executable
+ # Param EXTERNAL_DEP The thirdparties that are needed to link the executable
 function(cpp_add_test)
    set (options OPTIONAL)
    set (oneValueArgs NAME PATH)
-   set (multiValueArgs SOURCES LIB EXTERNAL_DEP INTERNAL_DEP)
+   set (multiValueArgs SRC LIB EXTERNAL_DEP INTERNAL_DEP)
    cmake_parse_arguments(test
       "${options}"
       "${oneValueArgs}"
@@ -187,12 +187,12 @@ function(cpp_add_test)
    )
    message (STATUS "Adding a new test: ${test_NAME}")
    message (STATUS "Path: ${test_PATH}")
-   message (STATUS "Sources: ${test_SOURCES}")
+   message (STATUS "Sources: ${test_SRC}")
    message (STATUS "Libraries: ${test_LIB}")
    message (STATUS "InternalDep: ${test_INTERNAL_DEP}")
    message (STATUS "ThirdParties: ${test_EXTERNAL_DEP}")
 
-   add_executable (${test_NAME} ${test_SOURCES})
+   add_executable (${test_NAME} ${test_SRC})
    target_link_libraries (${test_NAME}
       -Xlinker --whole-archive ${test_LIB}
       -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
@@ -201,7 +201,7 @@ function(cpp_add_test)
    # TODO Can we get automatically the current path?
    set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${test_PATH})
    cmake_policy (SET CMP0002 OLD)
-   add_executable (ctest ${test_SOURCES})
+   add_executable (ctest ${test_SRC})
    cmake_policy (SET CMP0002 NEW)
    target_link_libraries (ctest
       -Xlinker --whole-archive ${test_LIB}
@@ -219,12 +219,12 @@ endfunction(cpp_add_test)
 #
 # Param NAME The name of the library (usually the same as the project)
 # Param PATH The path of the sources of the lib
-# Param SOURCES The list of source file required by the lib
+# Param SRC The list of source file required by the lib
 # Param TEST_SRC The list of source file which test the library
 function(cpp_add_lib)
   set (options OPTIONAL)
   set (oneValueArgs NAME TEST PATH INTERNAL_DEP)
-  set (multiValueArgs SOURCES TEST_SRC EXTERNAL_DEP)
+  set (multiValueArgs SRC TEST_SRC EXTERNAL_DEP)
   cmake_parse_arguments(lib
     "${options}"
     "${oneValueArgs}"
@@ -244,12 +244,12 @@ function(cpp_add_lib)
     include_directories(${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
   endif()
 
-  add_library(${lib_NAME} STATIC ${lib_SOURCES})
+  add_library(${lib_NAME} STATIC ${lib_SRC})
   target_link_libraries(${lib_NAME})
   cpp_add_test(
     NAME "${lib_NAME}_test"
     PATH "${lib_PATH}/test"
-    SOURCES "${lib_TEST_SRC}"
+    SRC "${lib_TEST_SRC}"
     LIB "${lib_NAME}"
     INTERNAL_DEP "${lib_INTERNAL_DEP}"
     EXTERNAL_DEP "${lib_EXTERNAL_DEP}"
