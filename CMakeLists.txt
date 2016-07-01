@@ -194,20 +194,18 @@ function(cpp_add_test)
 
    add_executable (${test_NAME} ${test_SRC})
    target_link_libraries (${test_NAME}
-      -Xlinker --whole-archive ${test_LIB}
+      -Xlinker --whole-archive  ${test_LIB}
       -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
                                   libgtest libgtest_main
    )
-   # TODO Can we get automatically the current path?
-   set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${test_PATH})
-   cmake_policy (SET CMP0002 OLD)
-   add_executable (ctest ${test_SRC})
-   cmake_policy (SET CMP0002 NEW)
-   target_link_libraries (ctest
-      -Xlinker --whole-archive ${test_LIB}
-      -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
-                                  libgtest libgtest_main
+
+   add_custom_command(
+      TARGET ${test_NAME}
+      POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${test_NAME}> "${test_PATH}/ctest"
    )
+   set_directory_properties(PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${test_PATH}/ctest)
+
    add_test (
       NAME ${test_NAME}
       COMMAND ${test_NAME}
