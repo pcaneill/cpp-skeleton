@@ -15,11 +15,13 @@ b/use_clang := -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 
 # }}}
 
+.PHONY: test 
+
 all: ./${v/root}/${v/build}/$(v/profile)/Makefile
 ifeq (${v/profile},analyzer)
 	@scan-build $(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
 else
-	@$(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
+	@$(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current} $(MAKECMDGOALS)
 endif
 
 # Defines the different build targets depending on the profiles
@@ -160,7 +162,7 @@ ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
 ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
 ifeq ($(findstring rtags,$(MAKECMDGOALS)),)
 
-$(MAKECMDGOALS): ./${v/build}/${v/profile}/Makefile
+$(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/Makefile
 	@ $(MAKE) -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
 
 endif
