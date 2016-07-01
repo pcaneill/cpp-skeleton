@@ -14,14 +14,28 @@ b/debug     := -DCMAKE_BUILD_TYPE=Debug
 b/use_clang := -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 
 # }}}
+# {{{ Cores
+
+v/procs:=4
+OS:=$(shell uname -s)
+
+ifeq ($(OS),Linux)
+  v/procs:=$(shell grep -c ^processor /proc/cpuinfo)
+endif
+ifeq ($(OS),Darwin) # Assume Mac OS X
+  v/procs:=$(shell system_profiler | awk '/Number Of CPUs/{print $4}{next;}')
+endif
+v/procs:= $(or $(J),$(JOBS),${v/procs})
+
+# }}}
 
 .PHONY: test 
 
 all: ./${v/root}/${v/build}/$(v/profile)/Makefile
 ifeq (${v/profile},analyzer)
-	@scan-build $(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
+	@scan-build $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
 else
-	@$(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current} $(MAKECMDGOALS)
+	@$(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/$(v/profile)/${v/current} $(MAKECMDGOALS)
 endif
 
 # Defines the different build targets depending on the profiles
@@ -112,6 +126,12 @@ help:
 	@echo "The following are some of the valid targets for this Makefile:"
 	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind"
 	@echo ""
+	@echo "PARALLEL COMPILATION (JOBS)"
+	@echo "-----------------------------"
+	@echo "If the OS is Mac or Linux the number of core available will be detected automatically."
+	@echo "To override the value found by setting set 'J' or 'JOBS' to the number of jobs."
+	@echo ""
+	@echo ""
 	@echo "PROFILES"
 	@echo "--------"
 	@echo "Available Profiles are:"
@@ -163,7 +183,7 @@ ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
 ifeq ($(findstring rtags,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/Makefile
-	@ $(MAKE) -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
+	@ $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
 
 endif
 endif
