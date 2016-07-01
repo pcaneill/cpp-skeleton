@@ -15,7 +15,7 @@ b/use_clang := -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 
 # }}}
 
-all: ./${v/build}/$(v/profile)/Makefile
+all: ./${v/root}/${v/build}/$(v/profile)/Makefile
 ifeq (${v/profile},analyzer)
 	@scan-build $(MAKE) -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
 else
@@ -32,31 +32,31 @@ define make_build
 
 endef
 
-./${v/build}/normal/Makefile:
+./${v/root}/${v/build}/normal/Makefile:
 	$(call make_build, normal, ${b/debug})
 
-./${v/build}/release/Makefile:
+./${v/root}/${v/build}/release/Makefile:
 	$(call make_build, release, ${b/release})
 
-./${v/build}/debug/Makefile:
+./${v/root}/${v/build}/debug/Makefile:
 	$(call make_build, debug, ${b/debug})
 
-./${v/build}/asan/Makefile:
+./${v/root}/${v/build}/asan/Makefile:
 	$(call make_build, asan, ${b/debug} ${b/use_clang} -DCLANG_ASAN=ON)
 
-./${v/build}/msan/Makefile:
+./${v/root}/${v/build}/msan/Makefile:
 	$(call make_build, msan, ${b/debug} ${b/use_clang} -DCLANG_MSAN=ON)
 
-./${v/build}/tsan/Makefile:
+./${v/root}/${v/build}/tsan/Makefile:
 	$(call make_build, tsan, ${b/debug} ${b/use_clang} -DCLANG_TSAN=ON)
 
-./${v/build}/usan/Makefile:
+./${v/root}/${v/build}/usan/Makefile:
 	$(call make_build, usan, ${b/debug} ${b/use_clang} -DCLANG_USAN=ON)
 
-./${v/build}/analyzer/Makefile:
+./${v/root}/${v/build}/analyzer/Makefile:
 	$(call make_build, analyzer, "", scan-build)
 
-./${v/build}/compile_flags:
+./${v/root}/${v/build}/compile_flags:
 ifeq (".","${v/root}")
 	$(call make_build, compile_flags, ${b/use_clang} ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
 else
@@ -65,20 +65,20 @@ endif
 
 # {{{ Target: ycm
 
-ycm: ./${v/build}/compile_flags
+ycm: ./${v/root}/${v/build}/compile_flags
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
 	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
 
 # }}}
 # {{{ Target: rtags
 
-rtags: ./${v/build}/compile_flags
+rtags: ./${v/root}/${v/build}/compile_flags
 	@$(RTAGS) -J ${v/build}/compile_flags/
 
 # }}}
 # {{{ Target: ctags
 
-ctags: ./${v/build}/compile_flags
+ctags: ./${v/root}/${v/build}/compile_flags
 	@ctags -o .tags
 
 # }}}
@@ -153,6 +153,7 @@ help:
 # }}}
 # {{{ Target: forwarding
 
+# TODO use or
 ifeq ($(findstring distclean,$(MAKECMDGOALS)),)
 ifeq ($(findstring help,$(MAKECMDGOALS)),)
 ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
