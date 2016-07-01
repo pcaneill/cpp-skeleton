@@ -65,7 +65,8 @@ endif()
 option(CLANG_STATIC_ANALYZER "Enable Clang StaticAnalyzer"    OFF)
 if (CLANG_STATIC_ANALYZER)
    message(STATUS "Using Clang Static analyzer")
-   add_compile_options(-fsyntax-only)
+   # TODO disable for now as it works only on fedora
+   # add_compile_options(-fsyntax-only)
 endif()
 
 # }}}
@@ -73,11 +74,14 @@ endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include(cmake/CodeCoverage.cmake)
-  add_compile_options(
-     -g
-     -fprofile-arcs
-     -ftest-coverage
-  )
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
+  # TODO not working properly see linkage
+  #add_compile_options(
+  #   -g
+  #   -O1
+  #   -fprofile-arcs
+  #   -ftest-coverage
+  #)
   setup_target_for_coverage (
     coverage
     ""
