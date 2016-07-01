@@ -70,7 +70,7 @@ endef
 	$(call make_build, usan, ${b/debug} ${b/use_clang} -DCLANG_USAN=ON)
 
 ./${v/root}/${v/build}/analyzer/Makefile:
-	$(call make_build, analyzer, "", scan-build)
+	$(call make_build, analyzer, -DCLANG_STATIC_ANALYZER=ON, scan-build)
 
 ./${v/root}/${v/build}/compile_flags:
 ifeq (".","${v/root}")

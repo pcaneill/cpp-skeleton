@@ -54,6 +54,15 @@ if (CLANG_CSAN)
 endif()
 
 # }}}
+# {{{ analyzer: Clang StaticAnalyzer
+
+option(CLANG_STATIC_ANALYZER "Enable Clang StaticAnalyzer"    OFF)
+if (CLANG_STATIC_ANALYZER)
+   message(STATUS "Using Clang Static analyzer")
+   add_compile_options(-fsyntax-only)
+endif()
+
+# }}}
 # {{{ coverage
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
