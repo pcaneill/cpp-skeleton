@@ -10,7 +10,10 @@ include(ExternalProject)
 option(CLANG_ASAN "Enable Clang AddressSanitizer"   OFF)
 if (CLANG_ASAN)
   message(STATUS "Using Clang AddressSanitizer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
+  add_compile_options(
+     -fsanitize=address
+     -fno-omit-frame-pointer
+  )
 endif()
 
 # }}}
@@ -19,9 +22,12 @@ endif()
 option(CLANG_MSAN "Enable Clang MemorySanitizer"    OFF)
 if (CLANG_MSAN)
   message(STATUS "Using Clang MemorySanitizer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=memory -fsanitize-memory-track-origins \
-                                          -fno-omit-frame-pointer -fno-optimize-sibling-calls")
-
+  add_compile_options(
+     -fsanitize=memory
+     -fsanitize-memory-track-origins
+     -fno-omit-frame-pointer
+     -fno-optimize-sibling-calls
+  )
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -31,7 +37,7 @@ endif()
 option(CLANG_USAN "Enable Clang UndefinedBehaviorSanitizer" OFF)
 if (CLANG_USAN)
   message(STATUS "Using Clang UndefinedBehaviorSanitizer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=undefined")
+  add_compile_options(-fsanitizer=undefined)
 endif()
 
 # }}}
@@ -40,7 +46,7 @@ endif()
 option(CLANG_TSAN "Enable Clang ThreadSanitizer"    OFF)
 if (CLANG_TSAN)
   message(STATUS "Using Clang ThreadSanitizer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fsanitize=thread")
+  add_compile_options(-fsanitize=thread)
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -50,7 +56,7 @@ endif()
 option(CLANG_CSAN "Enable Clang CoverageSanitizer"    OFF)
 if (CLANG_CSAN)
   message(STATUS "Using Clang CoverageSanitizer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize-coverage=func -fsanitize-coverage=edge")
+  add_compile_options(-fsanitize-coverage=func,edge)
 endif()
 
 # }}}
@@ -67,7 +73,11 @@ endif()
 
 if (CMAKE_BUILD_TYPE STREQUAL "Debug")
   include(cmake/CodeCoverage.cmake)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O1 -fprofile-arcs -ftest-coverage")
+  add_compile_options(
+     -g
+     -fprofile-arcs
+     -ftest-coverage
+  )
   setup_target_for_coverage (
     coverage
     ""
