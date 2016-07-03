@@ -291,3 +291,19 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 # }}}
+# {{{ test
+
+include (CTest)
+
+# }}}
+# {{{ valgrind_all_multithreaded valgrind
+
+add_custom_target(valgrind_all_multithreaded
+   COMMAND ctest --output-on-failure -j 4 -D ExperimentalMemCheck
+)
+
+add_custom_target(valgrind
+   COMMAND ctest --output-on-failure -D ExperimentalMemCheck
+)
+
+# }}}
