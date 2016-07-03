@@ -3,10 +3,8 @@
 option(CLANG_ASAN "Enable Clang AddressSanitizer"   OFF)
 if (CLANG_ASAN)
   message(STATUS "Using Clang AddressSanitizer")
-  add_compile_options(
-     -fsanitize=address
-     -fno-omit-frame-pointer
-  )
+  # add_compile_options not forwareded to external project
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -fno-omit-frame-pointer")
 endif()
 
 # }}}
@@ -15,12 +13,7 @@ endif()
 option(CLANG_MSAN "Enable Clang MemorySanitizer"    OFF)
 if (CLANG_MSAN)
   message(STATUS "Using Clang MemorySanitizer")
-  add_compile_options(
-     -fsanitize=memory
-     -fsanitize-memory-track-origins
-     -fno-omit-frame-pointer
-     -fno-optimize-sibling-calls
-  )
+   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fsanitize=memory -fsanitize-memory-track-origins -fno-omit-frame-pointer -fno-optimize-sibling-calls")
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -30,7 +23,7 @@ endif()
 option(CLANG_USAN "Enable Clang UndefinedBehaviorSanitizer" OFF)
 if (CLANG_USAN)
   message(STATUS "Using Clang UndefinedBehaviorSanitizer")
-  add_compile_options(-fsanitizer=undefined)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitizer=undefined")
 endif()
 
 # }}}
@@ -39,7 +32,7 @@ endif()
 option(CLANG_TSAN "Enable Clang ThreadSanitizer"    OFF)
 if (CLANG_TSAN)
   message(STATUS "Using Clang ThreadSanitizer")
-  add_compile_options(-fsanitize=thread)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIE -fsanitize=thread")
   set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
 
@@ -49,7 +42,7 @@ endif()
 option(CLANG_CSAN "Enable Clang CoverageSanitizer"    OFF)
 if (CLANG_CSAN)
   message(STATUS "Using Clang CoverageSanitizer")
-  add_compile_options(-fsanitize-coverage=func,edge)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize-coverage=func,edge")
 endif()
 
 # }}}

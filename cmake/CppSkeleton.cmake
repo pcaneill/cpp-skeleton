@@ -1,4 +1,7 @@
+include(cmake/CppToolchain.cmake)
+
 include(ExternalProject)
+
 include(cmake/third_party/GoogleTest.cmake)
 
 # {{{ Add Test
