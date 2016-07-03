@@ -1,98 +1,11 @@
 cmake_minimum_required(VERSION 3.0.2)
-
-include(cmake/CppSkeleton.cmake)
-
 project(cppskeleton)
+
+include(cmake/CppToolchain.cmake)
+include(cmake/CppSkeleton.cmake)
 
 include(ExternalProject)
 
-# {{{ Targets
-# {{{ asan: Clang AddressSanitizer
-
-option(CLANG_ASAN "Enable Clang AddressSanitizer"   OFF)
-if (CLANG_ASAN)
-  message(STATUS "Using Clang AddressSanitizer")
-  add_compile_options(
-     -fsanitize=address
-     -fno-omit-frame-pointer
-  )
-endif()
-
-# }}}
-# {{{ msan: Clang MemorySanitizer
-
-option(CLANG_MSAN "Enable Clang MemorySanitizer"    OFF)
-if (CLANG_MSAN)
-  message(STATUS "Using Clang MemorySanitizer")
-  add_compile_options(
-     -fsanitize=memory
-     -fsanitize-memory-track-origins
-     -fno-omit-frame-pointer
-     -fno-optimize-sibling-calls
-  )
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
-
-# }}}
-# {{{ usan: Clang UndefinedBehaviorSanitizer
-
-option(CLANG_USAN "Enable Clang UndefinedBehaviorSanitizer" OFF)
-if (CLANG_USAN)
-  message(STATUS "Using Clang UndefinedBehaviorSanitizer")
-  add_compile_options(-fsanitizer=undefined)
-endif()
-
-# }}}
-# {{{ tsan: Clang ThreadSanitizer
-
-option(CLANG_TSAN "Enable Clang ThreadSanitizer"    OFF)
-if (CLANG_TSAN)
-  message(STATUS "Using Clang ThreadSanitizer")
-  add_compile_options(-fsanitize=thread)
-  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-endif()
-
-# }}}
-# {{{ csan: Clang CoverageSanitizer
-
-option(CLANG_CSAN "Enable Clang CoverageSanitizer"    OFF)
-if (CLANG_CSAN)
-  message(STATUS "Using Clang CoverageSanitizer")
-  add_compile_options(-fsanitize-coverage=func,edge)
-endif()
-
-# }}}
-# {{{ analyzer: Clang StaticAnalyzer
-
-option(CLANG_STATIC_ANALYZER "Enable Clang StaticAnalyzer"    OFF)
-if (CLANG_STATIC_ANALYZER)
-   message(STATUS "Using Clang Static analyzer")
-   # TODO disable for now as it works only on fedora
-   # add_compile_options(-fsyntax-only)
-endif()
-
-# }}}
-# {{{ coverage
-
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-  include(cmake/CodeCoverage.cmake)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fprofile-arcs -ftest-coverage")
-  # TODO not working properly see linkage
-  #add_compile_options(
-  #   -g
-  #   -O1
-  #   -fprofile-arcs
-  #   -ftest-coverage
-  #)
-  setup_target_for_coverage (
-    coverage
-    ""
-    ./coverage
-  )
-endif()
-
-# }}}
-# }}}
 # {{{ Third Parties
 # {{{ GoogleTest
 
