@@ -1,3 +1,6 @@
+include(ExternalProject)
+include(cmake/third_party/GoogleTest.cmake)
+
 # {{{ Add Test
 
  # cpp_add_test()
