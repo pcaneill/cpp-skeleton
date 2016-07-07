@@ -1,8 +1,9 @@
 include(cmake/CppToolchain.cmake)
 
-include(ExternalProject)
+#include(ExternalProject)
 
-include(cmake/third_party/GoogleTest.cmake)
+hunter_add_package(GTest)
+find_package(GTest CONFIG REQUIRED)
 
 # {{{ Add Test
 
@@ -45,7 +46,7 @@ function(cpp_add_test)
    target_link_libraries (${test_NAME}
       -Xlinker --whole-archive  ${test_LIB}
       -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
-                                  libgtest libgtest_main
+                                  GTest::main
    )
 
    add_custom_command(
@@ -95,7 +96,7 @@ function(cpp_add_lib)
   endif()
 
   add_library(${lib_NAME} STATIC ${lib_SRC})
-  target_link_libraries(${lib_NAME})
+  target_link_libraries(${lib_NAME} GTest::main)
   cpp_add_test(
     NAME "${lib_NAME}_test"
     PATH "${lib_PATH}/test"
