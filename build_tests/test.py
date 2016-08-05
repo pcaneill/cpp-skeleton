@@ -64,7 +64,6 @@ def process_cmds(cmd):
             if skip_line(e):
                 continue
             check_noexpected(e, out)
-        print out
     except subprocess.CalledProcessError as e:
         LOG.critical("Command '%s' ('%s') failed with status: %s "\
                      "and output:\n %s", cmd["cmd"], e.cmd,
@@ -175,7 +174,6 @@ def main():
     args = parser.parse_args()
 
     tests = get_tests("build_tests/tests/")
-    print args
     if args.commands == 'run':
         for cmd in tests:
             if cmd['name'] == args.name:
