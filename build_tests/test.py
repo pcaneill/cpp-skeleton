@@ -31,7 +31,8 @@ def check_expected(e, out):
     # TODO use a regex bcs TOTO will match TOTO and TOTODUDU
     # and we don't want that
     if out.find(e) == -1:
-        LOG.info(out)
+        LOG.error('Test Failed')
+        LOG.warning('Test Output:\n%s', out)
         LOG.critical("Not found '%s'", e)
         raise WorkcppException()
     return 0
@@ -39,7 +40,8 @@ def check_expected(e, out):
 def check_noexpected(e, out):
     LOG.debug("NoChecking %s", e)
     if out.find(e) != -1:
-        LOG.info(out)
+        LOG.error('Test Failed')
+        LOG.warning('Test Output:\n%s', out)
         LOG.critical("Found '%s'", e)
         raise WorkcppException()
     return 0
@@ -49,39 +51,53 @@ def check_noexpected(e, out):
 
 def process_cmds(cmd):
     try:
-        LOG.info("%s", cmd["cmd"])
-        out = subprocess.check_output(cmd["cmd"],
+        out = subprocess.check_output(cmd['cmd'], cwd=cmd['cwd'],
                                       stderr=subprocess.STDOUT,
                                       shell=True)
-        if len(cmd["expect"]) == 0:
+        if len(cmd['expect']) == 0:
             return 0
         #TODO Add an expect_once
-        for e in cmd["expect"]:
+        for e in cmd['expect']:
             if skip_line(e):
                 continue
             check_expected(e, out)
-        for e in cmd["noexpect"]:
+        for e in cmd['noexpect']:
             if skip_line(e):
                 continue
             check_noexpected(e, out)
     except subprocess.CalledProcessError as e:
-        LOG.critical("Command '%s' ('%s') failed with status: %s "\
-                     "and output:\n %s", cmd["cmd"], e.cmd,
+        LOG.critical('Command `%s` (`%s`) failed with status: `%s` '\
+                     'and output:\n %s', cmd['cmd'], e.cmd,
                      e.returncode, e.output)
         return 1
     except WorkcppException:
         return 1
 
 def run_test(name):
+    LOG.info('--------------------------------------------------------------')
     cmds = load_file(name)
     LOG.info('Test: %s', cmds["desc"])
     LOG.info('List of commands that will be executed:')
-    for cmd in cmds["commands"]:
-        LOG.info("\t - %s", cmd["cmd"])
-    LOG.info('------------------------------------------------')
-    for cmd in cmds["commands"]:
+    i = 0
+    for cmd in cmds['commands']:
+        try:
+            cmd['cwd']
+        except KeyError:
+            cmd['cwd'] = None
+
+        LOG.info("\t %2d - %s (cwd: %s)", i, cmd['cmd'], cmd['cwd'])
+        i = i + 1
+    LOG.info('--------------------------------------------------------------')
+    LOG.info('Starting test.')
+    i = 0
+    for cmd in cmds['commands']:
+        LOG.info('%2d - %s (cwd: %s)', i, cmd['cmd'], cmd['cwd'])
         if process_cmds(cmd):
+            LOG.error('TEST KO')
             return 1
+        i = i + 1
+    LOG.info('TEST OK')
+    LOG.info('--------------------------------------------------------------')
     return 0
 
 # }}}
