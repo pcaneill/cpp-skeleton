@@ -1,0 +1,173 @@
+{
+  "name": "touch_and_compile",
+  "desc": "Touch several files and see compilation behavior",
+  "commands": [
+  {
+    "nb": 0,
+    "cmd": "rm -rf .build",
+    "expect": [ ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 1,
+    "cmd": "make P=normal",
+    "expect": [
+    ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 2,
+    "cwd": "src/lib1/test",
+    "cmd": "make",
+    "expect": [
+      "Built target lib1",
+      "Built target lib1_test"
+    ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 3,
+    "cwd": "src/lib1/test",
+    "cmd": "touch test.hpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Linking CXX executable lib1_test"
+    ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 4,
+    "cwd": "src/lib1/test",
+    "cmd": "touch test.cpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Linking CXX executable lib1_test"
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o"
+    ]
+  },
+  {
+    "nb": 5,
+    "cwd": "src/lib1/test",
+    "cmd": "touch ../sub1/private_sub1.hpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o",
+      "Linking CXX static library liblib1d.a",
+      "Built target lib1",
+      "Scanning dependencies of target lib1_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Linking CXX executable lib1_test",
+      "Built target lib1_test"
+    ],
+    "noexpect": [
+    ]
+  },
+  {
+    "nb": 6,
+    "cwd": "src/lib1/test",
+    "cmd": "touch ../sub1/private_sub1.hpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o",
+      "Linking CXX static library liblib1d.a",
+      "Built target lib1",
+      "Scanning dependencies of target lib1_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Linking CXX executable lib1_test",
+      "Built target lib1_test"
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub2/sub2.cpp.o"
+    ]
+  },
+  {
+    "nb": 7,
+    "cwd": "src/lib1/test",
+    "cmd": "touch ../include/lib1/sub1/public_sub1.hpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o",
+      "Linking CXX static library liblib1d.a",
+      "Built target lib1",
+      "Scanning dependencies of target lib1_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Linking CXX executable lib1_test"
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub2/sub2.cpp.o"
+    ]
+  },
+  {
+    "nb": 8,
+    "cwd": "src/lib1",
+    "cmd": "make",
+    "expect": [
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub2/sub2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o"
+    ]
+  },
+  {
+    "nb": 9,
+    "cwd": "src",
+    "cmd": "make",
+    "expect": [
+      "Scanning dependencies of target lib2_test",
+      "Built target lib1_test",
+      "Building CXX object src/lib2/CMakeFiles/lib2_test.dir/test/test.cpp.o",
+      "Linking CXX executable lib2_test"
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub2/sub2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o"
+    ]
+  },
+  {
+    "nb": 10,
+    "cwd": "src/lib2/test",
+    "cmd": "touch ../../lib1/include/lib1/sub1/public_sub1.hpp ; make",
+    "expect": [
+      "Scanning dependencies of target lib1",
+      "Built target lib2",
+      "Building CXX object src/lib1/CMakeFiles/lib1.dir/sub1/sub1.cpp.o",
+      "Linking CXX static library liblib1d.a",
+      "Built target lib1",
+      "Scanning dependencies of target lib2_test",
+      "Building CXX object src/lib2/CMakeFiles/lib2_test.dir/test/test.cpp.o",
+      "Linking CXX executable lib2_test",
+      "Built target lib2_test"
+    ],
+    "noexpect": [
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Linking CXX executable lib1_test"
+    ]
+  },
+  {
+    "nb": 11,
+    "cmd": "make",
+    "expect": [
+      "Scanning dependencies of target lib1_test",
+      "Built target lib2_test",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test.cpp.o",
+      "Building CXX object src/lib1/CMakeFiles/lib1_test.dir/test/test2.cpp.o",
+      "Linking CXX executable lib1_test"
+    ],
+    "noexpect": [
+    ]
+  }
+  ]
+}
