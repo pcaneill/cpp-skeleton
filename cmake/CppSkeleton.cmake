@@ -88,7 +88,16 @@ function (cpp_add_lib)
     "${multiValueArgs}"
      ${ARGN}
    )
+  # Logging
   message (STATUS "Adding a new lib: ${lib_NAME}")
+  message (STATUS "    * Path: ${lib_PATH}")
+  message (STATUS "    * Sources: ${lib_SRC}")
+  if (lib_INTERNAL_DEP)
+    message (STATUS "    * InternalDep: ${lib_INTERNAL_DEP}")
+  endif ()
+  if (lib_EXTERNAL_DEP)
+    message (STATUS "    * ThirdParties: ${lib_EXTERNAL_DEP}")
+  endif ()
 
   project (${lib_NAME})
 
