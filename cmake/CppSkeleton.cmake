@@ -124,6 +124,13 @@ function (cpp_add_lib)
   )
 endfunction (cpp_add_lib)
 
+# cpp_add_lib_glob()
+#   Creates a new library using Glob for the sources and the tests
+#
+# Param NAME The name of the library (usually the same as the project)
+# Param PATH The path of the sources of the lib
+# Param SRC_PATTERN The list of source file required by the lib
+# Param TEST_SRC_PATTERN The list of source file which test the library
 function (cpp_add_lib_glob)
   set (options OPTIONAL)
   set (oneValueArgs NAME PATH)
@@ -137,9 +144,6 @@ function (cpp_add_lib_glob)
 
  file (GLOB_RECURSE SRC ${lib_SRC_PATTERN})
  file (GLOB_RECURSE TEST_SRC ${lib_SRC_TEST_PATTERN})
-
- message (STATUS "SRC ${SRC}")
- message (STATUS "TEST_SRC ${TEST_SRC}")
 
  cpp_add_lib (
    NAME ${lib_NAME}
