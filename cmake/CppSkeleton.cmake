@@ -54,17 +54,18 @@ function (cpp_add_test)
                                  GTest::main
   )
 
-   add_custom_command (
-      TARGET ${test_NAME}
-      POST_BUILD
-      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${test_NAME}> "${test_PATH}/ctest"
-   )
-   set_directory_properties (PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${test_PATH}/ctest)
+  # Copying test executable to the in source test repository.
+  add_custom_command (
+     TARGET ${test_NAME}
+     POST_BUILD
+     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${test_NAME}> "${test_PATH}/ctest"
+  )
+  set_directory_properties (PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${test_PATH}/ctest)
 
-   add_test (
-      NAME ${test_NAME}
-      COMMAND ${test_NAME}
-   )
+  add_test (
+     NAME ${test_NAME}
+     COMMAND ${test_NAME}
+  )
 endfunction (cpp_add_test)
 
 # }}}
