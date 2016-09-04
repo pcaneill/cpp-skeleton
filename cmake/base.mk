@@ -49,7 +49,7 @@ define make_build
 endef
 
 ./${v/root}/${v/build}/normal/Makefile:
-	$(call make_build, normal, ${b/debug})
+	$(call make_build, normal, ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
 
 ./${v/root}/${v/build}/release/Makefile:
 	$(call make_build, release, ${b/release})
@@ -72,38 +72,41 @@ endef
 ./${v/root}/${v/build}/analyzer/Makefile:
 	$(call make_build, analyzer, -DCLANG_STATIC_ANALYZER=ON, scan-build)
 
-./${v/root}/${v/build}/compile_flags:
+# {{{ Target: ycm
+
+ycm: ./${v/root}/${v/build}/normal
 ifeq (".","${v/root}")
-	$(call make_build, compile_flags, ${b/use_clang} ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
+	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
 else
 	$(error this target can only be called from the root directory)
 endif
 
-# {{{ Target: ycm
-
-ycm: ./${v/root}/${v/build}/compile_flags
-	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
-	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
-
 # }}}
 # {{{ Target: rtags
 
-rtags: ./${v/root}/${v/build}/compile_flags
-	@$(RTAGS) -J ${v/build}/compile_flags/
+rtags: ./${v/root}/${v/build}/normal
+ifeq (".","${v/root}")
+	@$(RTAGS) -J ${v/build}/normal/
+else
+	$(error this target can only be called from the root directory)
+endif
 
 # }}}
 # {{{ Target: ctags
 
-ctags: ./${v/root}/${v/build}/compile_flags
+ctags: ./${v/root}/${v/build}/normal
+ifeq (".","${v/root}")
 	@ctags -o .tags
+else
+	$(error this target can only be called from the root directory)
+endif
 
 # }}}
 # {{{ Target: distclean
 
 distclean:
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
-	@echo "DISTCLEAN > compile_flags"
-	@$(RM) ./${v/root}/${v/build}/compile_flags
 
 define make_distclean
 	@echo "DISTCLEAN > $(strip $(1))"
