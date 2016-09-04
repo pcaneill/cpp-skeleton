@@ -105,7 +105,15 @@ endif
 # }}}
 # {{{ Target: distclean
 
+# Distribution clean.
+#
+# The Goal is to clean the user setup from any generated files.
+#
+# First call make clean in order to remove any file that might have been copied into the
+# source repository.
+# After that remove all the directories under __BUILD__
 distclean:
+	@$(MAKE) clean
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
 
 define make_distclean
