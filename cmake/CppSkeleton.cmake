@@ -105,9 +105,11 @@ function (cpp_add_lib)
   include_directories (${lib_PATH}/include)
   include_directories (${lib_PATH}/)
 
-  # TODO for_each
   if (lib_INTERNAL_DEP)
-    include_directories (${${lib_INTERNAL_DEP}_SOURCE_DIR}/include)
+    foreach (libinternal IN LISTS lib_INTERNAL_DEP)
+      include_directories (${${libinternal}_SOURCE_DIR}/include)
+      message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+    endforeach ()
   endif()
 
   add_library (${lib_NAME} STATIC ${lib_SRC})
