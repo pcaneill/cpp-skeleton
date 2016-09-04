@@ -72,6 +72,26 @@ endef
 ./${v/root}/${v/build}/analyzer/Makefile:
 	$(call make_build, analyzer, -DCLANG_STATIC_ANALYZER=ON, scan-build)
 
+# {{{ Target: tidy
+
+tidy: ./${v/root}/${v/build}/normal
+ifeq (".","${v/root}")
+	@$(PYTHON) cmake/utils/run-clang-tidy.py -p ./${v/root}/${v/build}/normal/ -j ${v/procs}
+else
+	$(error this target can only be called from the root directory)
+endif
+
+# }}}
+# {{{ Target: format
+
+format:
+ifeq (".","${v/root}")
+	@clang-format -i `git ls-files | find -not -path "./.build/*" -and \( -name "*.cpp" -or -name "*.hpp" -or -name "*.c" -or -name ".h" \) | tr "\n" " "`
+else
+	$(error this target can only be called from the root directory)
+endif
+
+# }}}
 # {{{ Target: ycm
 
 ycm: ./${v/root}/${v/build}/normal
@@ -135,7 +155,7 @@ help:
 	@echo "TARGETS"
 	@echo "--------"
 	@echo "The following are some of the valid targets for this Makefile:"
-	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind"
+	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy"
 	@echo ""
 	@echo "PARALLEL COMPILATION (JOBS)"
 	@echo "-----------------------------"
@@ -192,10 +212,14 @@ ifeq ($(findstring help,$(MAKECMDGOALS)),)
 ifeq ($(findstring ycm,$(MAKECMDGOALS)),)
 ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
 ifeq ($(findstring rtags,$(MAKECMDGOALS)),)
+ifeq ($(findstring tidy,$(MAKECMDGOALS)),)
+ifeq ($(findstring format,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/Makefile
 	@ $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
 
+endif
+endif
 endif
 endif
 endif
