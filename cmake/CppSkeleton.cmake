@@ -5,7 +5,7 @@ include (cmake/CppToolchain.cmake)
 hunter_add_package (GTest)
 find_package (GTest CONFIG REQUIRED)
 
-# {{{ Add Test
+# {{{ Add unit test
 
  # cpp_add_test()
  #    Creates 2 test executable:
@@ -74,10 +74,12 @@ endfunction (cpp_add_test)
 # cpp_add_lib()
 #   Creates a new library
 #
-# Param NAME The name of the library (usually the same as the project)
-# Param PATH The path of the sources of the lib
-# Param SRC The list of source file required by the lib
-# Param TEST_SRC The list of source file which test the library
+# Param NAME The name of the library (usually the same as the project).
+# Param PATH The path of the sources of the lib.
+# Param SRC The list of source file required by the lib.
+# Param TEST_SRC The list of source file which test the library.
+# Param INTERNAL_DEP List of internal dependencies.
+# Param EXTERNAL_DEP List of external dependencies.
 function (cpp_add_lib)
   set (options OPTIONAL)
   set (oneValueArgs NAME PATH)
@@ -110,7 +112,7 @@ function (cpp_add_lib)
       include_directories (${${libinternal}_SOURCE_DIR}/include)
       message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
     endforeach ()
-  endif()
+  endif ()
 
   add_library (${lib_NAME} STATIC ${lib_SRC})
   target_link_libraries (${lib_NAME} GTest::main)
@@ -127,10 +129,12 @@ endfunction (cpp_add_lib)
 # cpp_add_lib_glob()
 #   Creates a new library using Glob for the sources and the tests
 #
-# Param NAME The name of the library (usually the same as the project)
-# Param PATH The path of the sources of the lib
-# Param SRC_PATTERN The list of source file required by the lib
-# Param TEST_SRC_PATTERN The list of source file which test the library
+# Param NAME The name of the library (usually the same as the project).
+# Param PATH The path of the sources of the lib.
+# Param SRC_PATTERN The glob pattern required to fetch all sources.
+# Param TEST_SRC_PATTERN The glob pattern to fetch all the tests sources.
+# Param INTERNAL_DEP List of internal dependencies.
+# Param EXTERNAL_DEP List of external dependencies.
 function (cpp_add_lib_glob)
   set (options OPTIONAL)
   set (oneValueArgs NAME PATH)
@@ -154,5 +158,52 @@ function (cpp_add_lib_glob)
    EXTERNAL_DEP ${lib_EXTERNAL_DEP}
  )
 endfunction (cpp_add_lib_glob)
+
+# }}}
+# {{{ Add executable
+
+# cpp_add_exe()
+#   Creates an executable.
+#
+# Param NAME The name of the executable.
+# Param PATH The path of the sources of the executable.
+# Param SRC The list of the sources files.
+# Param INTERNAL_DEP List of internal dependencies.
+# Param EXTERNAL_DEP List of external dependencies.
+function (cpp_add_exe)
+  set (options OPTIONAL)
+  set (oneValueArgs NAME PATH)
+  set (multiValueArgs SRC INTERNAL_DEP EXTERNAL_DEP)
+  cmake_parse_arguments (exe
+    "${options}"
+    "${oneValueArgs}"
+    "${multiValueArgs}"
+     ${ARGN}
+   )
+
+  if (exe_INTERNAL_DEP)
+    foreach (libinternal IN LISTS exe_INTERNAL_DEP)
+      include_directories (${${libinternal}_SOURCE_DIR}/include)
+      message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+    endforeach ()
+  endif ()
+
+  add_executable (${exe_NAME} ${exe_SRC})
+  target_link_libraries (${exe_NAME} ${exe_INTERNAL_DEP} ${exe_EXTERNAL_DEP})
+
+  # Copying executable to the bin directory.
+  add_custom_command (
+     TARGET ${exe_NAME}
+     POST_BUILD
+     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${exe_NAME}> "${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
+     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${exe_NAME}> "${exe_PATH}/${exe_NAME}"
+  )
+  set_directory_properties (
+    PROPERTIES
+    ADDITIONAL_MAKE_CLEAN_FILES "${exe_PATH}/${exe_NAME};${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
+  )
+
+endfunction ()
+
 
 # }}}
