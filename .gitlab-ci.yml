@@ -1,6 +1,10 @@
 before_script:
   - git submodule update --init --recursive
 
+new_test:
+  script:
+    - python build_tests/test.py run-all
+
 normal:
   script:
     - ./build_tests/normal.sh normal
