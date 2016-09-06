@@ -13,7 +13,8 @@
 * [DONE] make lcov
 * [DONE] make rtags
 * [DONE] make valgrind
-* [TODO] make check (linter, and clang format)
+* [DONE] make check (linter, and clang format)
+* [DONE] make diff-format, make diff-tidy
 * [TODO] make benchmark (flamegraph)
 * [TODO] make doc (doxygen or libphenom like)
 * [TODO] make tidy (Clang-tidy integration)

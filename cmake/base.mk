@@ -123,6 +123,16 @@ else
 endif
 
 # }}}
+# {{{ Target: etags
+
+etags: ./${v/root}/${v/build}/normal
+ifeq (".","${v/root}")
+	@etags -o .tags
+else
+	$(error this target can only be called from the root directory)
+endif
+
+# }}}
 # {{{ Target: distclean
 
 # Distribution clean.
@@ -155,13 +165,13 @@ help:
 	@echo "TARGETS"
 	@echo "--------"
 	@echo "The following are some of the valid targets for this Makefile:"
-	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy"
+	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy, format"
 	@echo ""
 	@echo "PARALLEL COMPILATION (JOBS)"
 	@echo "-----------------------------"
 	@echo "If the OS is Mac or Linux the number of core available will be detected automatically."
 	@echo "To override the value found  set 'J' or 'JOBS' to the number of jobs."
-	@echo "... make T=12 "
+	@echo "... make J=12 "
 	@echo ""
 	@echo "PROFILES"
 	@echo "--------"
@@ -214,10 +224,12 @@ ifeq ($(findstring ctags,$(MAKECMDGOALS)),)
 ifeq ($(findstring rtags,$(MAKECMDGOALS)),)
 ifeq ($(findstring tidy,$(MAKECMDGOALS)),)
 ifeq ($(findstring format,$(MAKECMDGOALS)),)
+ifeq ($(findstring etags,$(MAKECMDGOALS)),)
 
 $(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/Makefile
 	@ $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
 
+endif
 endif
 endif
 endif
