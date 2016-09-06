@@ -135,3 +135,12 @@ If the OS is Mac or Linux the number of core available will be detected
 automatically.  To override the value found  set 'J' or 'JOBS' to the number of jobs.
 
     make J=12
+
+## cppskeleton Developpment
+
+- make VERBOSE=1
+
+The project have *some* unit tests in order to catch regressions, you can run it by calling:
+
+    python build_tests/test.py run-all
+
