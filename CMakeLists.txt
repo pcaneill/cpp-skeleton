@@ -1,5 +1,8 @@
 cmake_minimum_required (VERSION 3.0.2)
 
+# Temporary
+HUNTER_SKIP_LOCK=ON
+
 include (cmake/HunterGate.cmake)
 HunterGate (
     URL "https://github.com/ruslo/hunter/archive/v0.14.29.tar.gz"
