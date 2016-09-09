@@ -29,8 +29,11 @@ analyzer:
   script:
     - make P=analyzer
 
+coverage:
+   script:
+      -make coverage
+
 tools:
   script:
     - make ctags
-    # - make rtags
     - make ycm
