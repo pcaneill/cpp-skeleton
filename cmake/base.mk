@@ -74,7 +74,7 @@ endef
 
 # {{{ Target: tidy
 
-tidy: ./${v/root}/${v/build}/normal
+tidy: ./${v/root}/${v/build}/normal/Makefile
 ifeq (".","${v/root}")
 	@$(PYTHON) cmake/utils/run-clang-tidy.py -p ./${v/root}/${v/build}/normal/ -j ${v/procs}
 else
@@ -94,7 +94,7 @@ endif
 # }}}
 # {{{ Target: ycm
 
-ycm: ./${v/root}/${v/build}/normal
+ycm: ./${v/root}/${v/build}/normal/Makefile
 ifeq (".","${v/root}")
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
 	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
@@ -105,7 +105,7 @@ endif
 # }}}
 # {{{ Target: rtags
 
-rtags: ./${v/root}/${v/build}/normal
+rtags: ./${v/root}/${v/build}/normal/Makefile
 ifeq (".","${v/root}")
 	@$(RTAGS) -J ${v/build}/normal/
 else
@@ -115,7 +115,7 @@ endif
 # }}}
 # {{{ Target: ctags
 
-ctags: ./${v/root}/${v/build}/normal
+ctags: ./${v/root}/${v/build}/normal/Makefile
 ifeq (".","${v/root}")
 	@ctags -o .tags
 else
@@ -125,9 +125,9 @@ endif
 # }}}
 # {{{ Target: etags
 
-etags: ./${v/root}/${v/build}/normal
+etags: ./${v/root}/${v/build}/normal/Makefile
 ifeq (".","${v/root}")
-	@etags -o .tags
+	@ctags -e -o .tags
 else
 	$(error this target can only be called from the root directory)
 endif
