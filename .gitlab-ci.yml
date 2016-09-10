@@ -31,7 +31,7 @@ analyzer:
 
 coverage:
    script:
-      -make coverage
+     - make coverage
 
 tools:
   script:
