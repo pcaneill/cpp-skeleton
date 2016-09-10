@@ -1,5 +1,8 @@
 # C++ skelton
 
+[![build status](https://git.moeryn.com/Moeryn/cppskeleton/badges/master/build.svg)](https://git.moeryn.com/Moeryn/cppskeleton/commits/master)
+[![coverage report](https://git.moeryn.com/Moeryn/cppskeleton/badges/master/coverage.svg)](https://git.moeryn.com/Moeryn/cppskeleton/commits/master)
+
 ## Why?
 
 Have a complete ready to go C/C++ for small and personal projects that can be
