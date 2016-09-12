@@ -146,17 +146,22 @@ function (cpp_add_lib_glob)
      ${ARGN}
   )
 
- file (GLOB_RECURSE SRC ${lib_SRC_PATTERN})
- file (GLOB_RECURSE TEST_SRC ${lib_SRC_TEST_PATTERN})
+  file (GLOB_RECURSE SRC ${lib_SRC_PATTERN})
+  # The test source are part of a different target so they need to be removed
+  file (GLOB_RECURSE to_remove ${lib_SRC_TEST_PATTERN})
+  if (to_remove)
+    list (REMOVE_ITEM SRC ${to_remove})
+  endif ()
+  file (GLOB_RECURSE TEST_SRC ${lib_SRC_TEST_PATTERN})
 
- cpp_add_lib (
-   NAME ${lib_NAME}
-   PATH ${lib_PATH}
-   SRC ${SRC}
-   TEST_SRC ${TEST_SRC}
-   INTERNAL_DEP ${lib_INTERNAL_DEP}
-   EXTERNAL_DEP ${lib_EXTERNAL_DEP}
- )
+  cpp_add_lib (
+    NAME ${lib_NAME}
+    PATH ${lib_PATH}
+    SRC ${SRC}
+    TEST_SRC ${TEST_SRC}
+    INTERNAL_DEP ${lib_INTERNAL_DEP}
+    EXTERNAL_DEP ${lib_EXTERNAL_DEP}
+  )
 endfunction (cpp_add_lib_glob)
 
 # }}}
