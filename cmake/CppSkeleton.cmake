@@ -104,13 +104,17 @@ function (cpp_add_lib)
   project (${lib_NAME})
 
   # TODO Can we get automatically the current path?
-  include_directories (${lib_PATH}/include)
+  if (EXISTS "${lib_PATH}/include")
+   include_directories (${lib_PATH}/include)
+  endif ()
   include_directories (${lib_PATH}/)
 
   if (lib_INTERNAL_DEP)
     foreach (libinternal IN LISTS lib_INTERNAL_DEP)
-      include_directories (${${libinternal}_SOURCE_DIR}/include)
-      message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+      if (EXISTS "${${libinternal}_SOURCE_DIR}/include")
+        include_directories (${${libinternal}_SOURCE_DIR}/include)
+        message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+      endif ()
     endforeach ()
   endif ()
 
@@ -188,8 +192,10 @@ function (cpp_add_exe)
 
   if (exe_INTERNAL_DEP)
     foreach (libinternal IN LISTS exe_INTERNAL_DEP)
-      include_directories (${${libinternal}_SOURCE_DIR}/include)
-      message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+      if (EXISTS "${${libinternal}_SOURCE_DIR}/include")
+        include_directories (${${libinternal}_SOURCE_DIR}/include)
+        message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
+      endif ()
     endforeach ()
   endif ()
 
