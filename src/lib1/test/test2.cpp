@@ -14,11 +14,11 @@
 
 TEST(TestShared, test3)
 {
-  lib1::sub1::public_display ();
-  lib1::sub2::public_display ();
+  lib1::sub1::public_display();
+  lib1::sub2::public_display();
 
-  lib1::sub1::private_display ();
-  lib1::sub2::private_display ();
+  lib1::sub1::private_display();
+  lib1::sub2::private_display();
 
   ASSERT_TRUE(true);
 }

@@ -4,17 +4,17 @@
 
 #include <iostream>
 
-namespace lib1 { namespace sub1 {
+namespace lib1 {
+namespace sub1 {
 
-
-void private_display ()
+void private_display()
 {
   std::cout << "Private display sub1" << std::endl;
 }
 
-void public_display ()
+void public_display()
 {
   std::cout << "Public display sub1" << std::endl;
 }
-
-}}
+}
+}

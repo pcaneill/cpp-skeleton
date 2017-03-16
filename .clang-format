@@ -7,7 +7,7 @@ AlignOperands: 'true'
 AlignTrailingComments: 'true'
 AllowShortBlocksOnASingleLine: 'true'
 AllowShortCaseLabelsOnASingleLine: 'true'
-AllowShortFunctionsOnASingleLine: All
+AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: 'true'
 AllowShortLoopsOnASingleLine: 'true'
 AlwaysBreakAfterReturnType: None
@@ -20,13 +20,13 @@ ConstructorInitializerAllOnOneLineOrOnePerLine: 'false'
 ConstructorInitializerIndentWidth: '3'
 Cpp11BracedListStyle: 'true'
 IndentCaseLabels: 'true'
-IndentWidth: '3'
+IndentWidth: '2'
 Language: Cpp
 NamespaceIndentation: None
 PointerAlignment: Left
 SortIncludes: 'true'
 SpaceAfterCStyleCast: 'true'
-SpaceBeforeParens: Always
+#SpaceBeforeParens: Always
 
 BreakBeforeBraces: Custom
 BraceWrapping:

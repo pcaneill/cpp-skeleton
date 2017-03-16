@@ -6,12 +6,11 @@
 
 namespace test3 {
 
-TEST (TestShared, test3)
+TEST(TestShared, test3)
 {
-  lib3::test ();
-  ASSERT_TRUE (true);
+  lib3::test();
+  ASSERT_TRUE(true);
 }
-
 }
 
 /* }}} */

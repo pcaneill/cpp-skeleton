@@ -10,26 +10,27 @@
 
 /* {{{ Tests */
 
-namespace lib1 { namespace test {
+namespace lib1 {
+namespace test {
 
-void display ()
+void display()
 {
   std::cout << "Test display" << std::endl;
 }
-
-}}
+}
+}
 
 #include <gtest/gtest.h>
 
 TEST(TestShared, test1)
 {
-  lib1::sub1::public_display ();
-  lib1::sub2::public_display ();
+  lib1::sub1::public_display();
+  lib1::sub2::public_display();
 
-  lib1::sub1::private_display ();
-  lib1::sub2::private_display ();
+  lib1::sub1::private_display();
+  lib1::sub2::private_display();
 
-  lib1::test::display ();
+  lib1::test::display();
 
   ASSERT_TRUE(true);
 }

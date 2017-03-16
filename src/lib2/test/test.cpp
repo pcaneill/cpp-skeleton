@@ -7,13 +7,12 @@
 
 namespace test2 {
 
-TEST (TestShared, test1)
+TEST(TestShared, test1)
 {
-  lib2::display ();
-  lib1::sub1::public_display ();
-  ASSERT_TRUE (true);
+  lib2::display();
+  lib1::sub1::public_display();
+  ASSERT_TRUE(true);
 }
-
 }
 
 /* }}} */
