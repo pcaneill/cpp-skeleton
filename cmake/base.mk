@@ -49,13 +49,13 @@ define make_build
 endef
 
 ./${v/root}/${v/build}/normal/Makefile:
-	$(call make_build, normal, ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1)
+	$(call make_build, normal, ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -LCOV_COVERAGE=ON)
 
 ./${v/root}/${v/build}/release/Makefile:
-	$(call make_build, release, ${b/release})
+	$(call make_build, release, ${b/release} -LCOV_COVERAGE=ON)
 
 ./${v/root}/${v/build}/debug/Makefile:
-	$(call make_build, debug, ${b/debug})
+	$(call make_build, debug, ${b/debug} -LCOV_COVERAGE=ON)
 
 ./${v/root}/${v/build}/asan/Makefile:
 	$(call make_build, asan, ${b/debug} ${b/use_clang} -DCLANG_ASAN=ON)

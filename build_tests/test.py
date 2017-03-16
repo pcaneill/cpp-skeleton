@@ -54,8 +54,6 @@ def process_cmds(cmd):
         out = subprocess.check_output(cmd['cmd'], cwd=cmd['cwd'],
                                       stderr=subprocess.STDOUT,
                                       shell=True)
-        if len(cmd['expect']) == 0:
-            return 0
         #TODO Add an expect_once
         for e in cmd['expect']:
             if skip_line(e):

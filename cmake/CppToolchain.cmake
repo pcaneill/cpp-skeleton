@@ -58,7 +58,8 @@ endif ()
 # }}}
 # {{{ coverage
 
-if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+option (LCOV_COVERAGE "Enable lcov coverage" OFF)
+if (LCOV_COVERAGE)
   # {{{ License
 
   # Copyright (c) 2012 - 2015, Lars Bilke

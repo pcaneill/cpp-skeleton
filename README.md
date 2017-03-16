@@ -94,6 +94,10 @@ The following target can be used with a profile:
    - make test : Run all the unit tests.
    - make clean : clean the artifacts of one profile.
    - make valgrind : Run all the unit tests under valgrind.
+                     It is advised not to use coverage and asan profile at
+                     the same time.
+   - make coverage : Run all the unit tests and create a coverage report.
+                     Works only with release, debug and normal profile.
 
 The following target do not need a profile:
 

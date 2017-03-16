@@ -1,0 +1,22 @@
+{
+  "name": "bug_21_clang_analyzer",
+  "desc": "Test bug #21: ClangAnalyzer and coverage",
+  "commands": [
+  {
+    "nb": 0,
+    "cmd": "rm -rf .build",
+    "expect": [ ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 1,
+    "cmd": "make P=asan VERBOSE=1",
+    "expect": [
+    ],
+    "noexpect": [
+       "-fprofile-arcs -ftest-coverage "
+    ]
+  }
+  ]
+}
+
