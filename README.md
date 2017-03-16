@@ -108,6 +108,8 @@ The following target do not need a profile:
    - make rtags : Setup rtags and feed rc with the compilation database.
    - make tidy : Run clang-tidy on all the codeline.
    - make format : Run clang-format on all the codeline.
+   - make git-format : Run clang-format only on the the staged diff
+     (make git-format -h for help)
 
 
 ## Profiles

@@ -91,6 +91,9 @@ else
 	$(error this target can only be called from the root directory)
 endif
 
+git-format:
+	@$(PYTHON) "${v/root}/cmake/utils/git-clang-format"
+
 # }}}
 # {{{ Target: ycm
 
@@ -165,11 +168,13 @@ help:
 	@echo "TARGETS"
 	@echo "--------"
 	@echo "The following are some of the valid targets for this Makefile:"
-	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy, format, coverage"
+	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy, format"
+	@echo "... coverage,  git-format"
 	@echo ""
 	@echo "PARALLEL COMPILATION (JOBS)"
 	@echo "-----------------------------"
-	@echo "If the OS is Mac or Linux the number of core available will be detected automatically."
+	@echo "If the OS is Mac or Linux the number of core available will be "
+	@echo "detected automatically."
 	@echo "To override the value found  set 'J' or 'JOBS' to the number of jobs."
 	@echo "... make J=12 "
 	@echo ""
