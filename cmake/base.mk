@@ -165,7 +165,7 @@ help:
 	@echo "TARGETS"
 	@echo "--------"
 	@echo "The following are some of the valid targets for this Makefile:"
-	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy, format"
+	@echo "... clean, distclean, ycm, ctags, rtags, test, valgrind, tidy, format, coverage"
 	@echo ""
 	@echo "PARALLEL COMPILATION (JOBS)"
 	@echo "-----------------------------"
