@@ -1,6 +1,5 @@
 before_script:
   - git submodule update --init --recursive
-  # Configure cmake once to download only once external dependencies
   - make 
 
 stages:
