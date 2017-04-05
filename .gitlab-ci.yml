@@ -1,53 +1,43 @@
 before_script:
   - git submodule update --init --recursive
-  - make 
 
 stages:
    - build
    - tests
-
+   
 new_test:
   script:
     - python build_tests/test.py run-all
   stage: build
-
 normal:
   script:
     - ./build_tests/normal.sh normal
   stage: build
-
 asan:
   script:
     - ./build_tests/normal.sh asan
   stage: build
-
 usan:
   script:
     - ./build_tests/normal.sh usan
   stage: build
-
 debug:
   script:
     - ./build_tests/normal.sh debug
   stage: build
-
 release:
   script:
     - ./build_tests/normal.sh release
   stage: build
-
 analyzer:
   script:
     - make P=analyzer
   stage: build
-
 coverage:
    script:
      - make coverage
-  stage: test
-
+   stage: tests
 tools:
   script:
-    #- make ctags
     - make ycm
-  stage: test
+  stage: tests
