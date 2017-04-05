@@ -9,54 +9,45 @@ stages:
 new_test:
   script:
     - python build_tests/test.py run-all
-  stage:
-     - build
+  stage: build
 
 normal:
   script:
     - ./build_tests/normal.sh normal
-  stage:
-     - build
+  stage: build
 
 asan:
   script:
     - ./build_tests/normal.sh asan
-  stage:
-     - build
+  stage: build
 
 usan:
   script:
     - ./build_tests/normal.sh usan
-  stage:
-     - build
+  stage: build
 
 debug:
   script:
     - ./build_tests/normal.sh debug
-  stage:
-     - build
+  stage: build
 
 release:
   script:
     - ./build_tests/normal.sh release
-  stage:
-     - build
+  stage: build
 
 analyzer:
   script:
     - make P=analyzer
-  stage:
-     - build
+  stage: build
 
 coverage:
    script:
      - make coverage
-  stage:
-     - test
+  stage: test
 
 tools:
   script:
     #- make ctags
     - make ycm
-  stage:
-     - test
+  stage: test
