@@ -21,14 +21,12 @@ find_package (GTest CONFIG REQUIRED)
  # Param NAME         The name of the test
  # Param PATH         The path of the sources of the test
  # Param SRC          The list of files required by the test executable
- # Param LIB          The libraries that are under tests
- # Param INTERNAL_DEP The libraries that are internal to the project that are
- #                    needed to link the executable
- # Param EXTERNAL_DEP The thirdparties that are needed to link the executable
+ # Param LIB          The library under test
+ # Param LIB_PATH     The path to the library under test
 function (cpp_add_test)
   set (options OPTIONAL)
-  set (oneValueArgs NAME PATH)
-  set (multiValueArgs SRC LIB EXTERNAL_DEP INTERNAL_DEP)
+  set (oneValueArgs NAME PATH LIB_PATH)
+  set (multiValueArgs SRC LIB)
   cmake_parse_arguments (test
      "${options}"
      "${oneValueArgs}"
@@ -40,19 +38,14 @@ function (cpp_add_test)
   message (STATUS "    * Path: ${test_PATH}")
   message (STATUS "    * Sources: ${test_SRC}")
   message (STATUS "    * Libraries: ${test_LIB}")
-  if (test_INTERNAL_DEP)
-    message (STATUS "    * InternalDep: ${test_INTERNAL_DEP}")
-  endif ()
-  if (test_EXTERNAL_DEP)
-    message (STATUS "    * ThirdParties: ${test_EXTERNAL_DEP}")
-  endif ()
 
   add_executable (${test_NAME} ${test_SRC})
-  target_link_libraries (${test_NAME}
+  target_link_libraries (${test_NAME} PRIVATE
      -Xlinker --whole-archive  ${test_LIB}
-     -Xlinker --no-whole-archive ${test_INTERNAL_DEP} ${test_EXTERNAL_DEP}
-                                 GTest::main
+     -Xlinker --no-whole-archive GTest::main
   )
+  target_include_directories (${test_NAME} PRIVATE ${test_LIB_PATH})
+  target_link_libraries (${test_NAME} PRIVATE ${test_LIB})
 
   # Copying test executable to the in source test repository.
   add_custom_command (
@@ -81,7 +74,7 @@ endfunction (cpp_add_test)
 # Param INTERNAL_DEP List of internal dependencies.
 # Param EXTERNAL_DEP List of external dependencies.
 function (cpp_add_lib)
-  set (options OPTIONAL)
+  set (options OPTIONAL GRPC)
   set (oneValueArgs NAME PATH)
   set (multiValueArgs SRC TEST_SRC INTERNAL_DEP EXTERNAL_DEP)
   cmake_parse_arguments (lib
@@ -103,30 +96,22 @@ function (cpp_add_lib)
 
   project (${lib_NAME})
 
-  # TODO Can we get automatically the current path?
+  add_library (${lib_NAME}
+     STATIC ${lib_SRC} ${PROTO_SRCS} ${PROTO_HDRS} ${GRPC_SRCS} ${GRPC_HDRS}
+  )
+  target_link_libraries (${lib_NAME} PRIVATE GTest::main ${LIB_GRPC_LIBRAIRIES})
+  target_link_libraries (${lib_NAME} PRIVATE  ${lib_INTERNAL_DEP})
+  target_link_libraries (${lib_NAME} PUBLIC  ${lib_EXTERNAL_DEP})
   if (EXISTS "${lib_PATH}/include")
-   include_directories (${lib_PATH}/include)
+    target_include_directories (${lib_NAME} PUBLIC ${lib_PATH}/include)
   endif ()
-  include_directories (${lib_PATH}/)
-
-  if (lib_INTERNAL_DEP)
-    foreach (libinternal IN LISTS lib_INTERNAL_DEP)
-      if (EXISTS "${${libinternal}_SOURCE_DIR}/include")
-        include_directories (${${libinternal}_SOURCE_DIR}/include)
-        message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
-      endif ()
-    endforeach ()
-  endif ()
-
-  add_library (${lib_NAME} STATIC ${lib_SRC})
-  target_link_libraries (${lib_NAME} GTest::main)
+  target_include_directories (${lib_NAME} PRIVATE ${lib_PATH}/)
   cpp_add_test (
     NAME "${lib_NAME}_test"
     PATH "${lib_PATH}/test"
     SRC "${lib_TEST_SRC}"
     LIB "${lib_NAME}"
-    INTERNAL_DEP "${lib_INTERNAL_DEP}"
-    EXTERNAL_DEP "${lib_EXTERNAL_DEP}"
+    LIB_PATH "${lib_PATH}"
   )
 endfunction (cpp_add_lib)
 
@@ -189,15 +174,6 @@ function (cpp_add_exe)
     "${multiValueArgs}"
      ${ARGN}
    )
-
-  if (exe_INTERNAL_DEP)
-    foreach (libinternal IN LISTS exe_INTERNAL_DEP)
-      if (EXISTS "${${libinternal}_SOURCE_DIR}/include")
-        include_directories (${${libinternal}_SOURCE_DIR}/include)
-        message (STATUS "    * Adding include ${${libinternal}_SOURCE_DIR}/include")
-      endif ()
-    endforeach ()
-  endif ()
 
   add_executable (${exe_NAME} ${exe_SRC})
   target_link_libraries (${exe_NAME} ${exe_INTERNAL_DEP} ${exe_EXTERNAL_DEP})

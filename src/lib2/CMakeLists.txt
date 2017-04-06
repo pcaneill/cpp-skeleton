@@ -9,5 +9,5 @@ cpp_add_lib (
   PATH "${lib2_SOURCE_DIR}"
   SRC  ${SRC}
   TEST_SRC ${TESTS_SRC}
-  INTERNAL_DEP lib1
+  EXTERNAL_DEP lib1
 )

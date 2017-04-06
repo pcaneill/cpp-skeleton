@@ -1,0 +1,28 @@
+{
+  "name": "internal_lib_test",
+  "desc": "Test that both the internal lib test and test lib are executed" ,
+  "commands": [
+  {
+    "nb": 0,
+    "cmd": "rm -rf .build",
+    "expect": [ ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 1,
+    "cmd": "make P=normal",
+    "expect": [
+    ],
+    "noexpect": [ ]
+  },
+  {
+    "nb": 2,
+    "cmd": "./src/lib2/test/ctest",
+    "expect": [
+       "TestShared.test1",
+       "TestStatic.test2"
+    ],
+    "noexpect": [ ]
+  }
+  ]
+}
