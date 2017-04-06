@@ -33,10 +33,10 @@ analyzer:
   script:
     - make P=analyzer
   stage: build
-coverage:
-   script:
-     - make coverage
-   stage: tests
+#coverage:
+#   script:
+#     - make coverage
+#   stage: tests
 tools:
   script:
     - make ycm

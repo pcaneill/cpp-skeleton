@@ -59,7 +59,7 @@ endif ()
 # {{{ coverage
 
 option (LCOV_COVERAGE "Enable lcov coverage" OFF)
-if (LCOV_COVERAGE)
+if (LCOV_COVERAGE AND FALSE)
   # {{{ License
 
   # Copyright (c) 2012 - 2015, Lars Bilke
