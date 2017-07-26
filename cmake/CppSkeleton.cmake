@@ -48,10 +48,12 @@ function (cpp_add_test)
   target_link_libraries (${test_NAME} PRIVATE ${test_LIB})
 
   # Copying test executable to the in source test repository.
-  add_custom_command (
-     TARGET ${test_NAME}
-     POST_BUILD
+  add_custom_target (
+     "${test_NAME}_copy" ALL
+     DEPENDS ${test_NAME}
      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${test_NAME}> "${test_PATH}/ctest"
+     COMMENT "Copying test executable to ${test_PATH}/ctest"
+     VERBATIM
   )
   set_directory_properties (PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${test_PATH}/ctest)
 
@@ -176,18 +178,21 @@ function (cpp_add_exe)
    )
 
   add_executable (${exe_NAME} ${exe_SRC})
-  target_link_libraries (${exe_NAME} ${exe_INTERNAL_DEP} ${exe_EXTERNAL_DEP})
+  target_link_libraries (${exe_NAME} PRIVATE ${exe_INTERNAL_DEP} ${exe_EXTERNAL_DEP})
 
   # Copying executable to the bin directory.
-  add_custom_command (
-     TARGET ${exe_NAME}
-     POST_BUILD
+  add_custom_target (
+     "${exe_NAME}_COPY" ALL
+     DEPENDS ${exe_NAME}
      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${exe_NAME}> "${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
      COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${exe_NAME}> "${exe_PATH}/${exe_NAME}"
+     COMMENT "Copying ${exe_NAME} to ${CMAKE_SOURCE_DIR}/bin/${exe_NAME} and ${exe_PATH}/${exe_NAME}"
+     VERBATIM
   )
+  get_directory_property(extra_clean ADDITIONAL_MAKE_CLEAN_FILES)
   set_directory_properties (
     PROPERTIES
-    ADDITIONAL_MAKE_CLEAN_FILES "${exe_PATH}/${exe_NAME};${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
+    ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean};${exe_PATH}/${exe_NAME};${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
   )
 
 endfunction ()
