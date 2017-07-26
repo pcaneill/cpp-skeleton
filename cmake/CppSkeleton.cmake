@@ -117,44 +117,6 @@ function (cpp_add_lib)
   )
 endfunction (cpp_add_lib)
 
-# cpp_add_lib_glob()
-#   Creates a new library using Glob for the sources and the tests
-#
-# Param NAME The name of the library (usually the same as the project).
-# Param PATH The path of the sources of the lib.
-# Param SRC_PATTERN The glob pattern required to fetch all sources.
-# Param TEST_SRC_PATTERN The glob pattern to fetch all the tests sources.
-# Param INTERNAL_DEP List of internal dependencies.
-# Param EXTERNAL_DEP List of external dependencies.
-function (cpp_add_lib_glob)
-  set (options OPTIONAL)
-  set (oneValueArgs NAME PATH)
-  set (multiValueArgs SRC_PATTERN SRC_TEST_PATTERN INTERNAL_DEP EXTERNAL_DEP)
-  cmake_parse_arguments (lib
-    "${options}"
-    "${oneValueArgs}"
-    "${multiValueArgs}"
-     ${ARGN}
-  )
-
-  file (GLOB_RECURSE SRC ${lib_SRC_PATTERN})
-  # The test source are part of a different target so they need to be removed
-  file (GLOB_RECURSE to_remove ${lib_SRC_TEST_PATTERN})
-  if (to_remove)
-    list (REMOVE_ITEM SRC ${to_remove})
-  endif ()
-  file (GLOB_RECURSE TEST_SRC ${lib_SRC_TEST_PATTERN})
-
-  cpp_add_lib (
-    NAME ${lib_NAME}
-    PATH ${lib_PATH}
-    SRC ${SRC}
-    TEST_SRC ${TEST_SRC}
-    INTERNAL_DEP ${lib_INTERNAL_DEP}
-    EXTERNAL_DEP ${lib_EXTERNAL_DEP}
-  )
-endfunction (cpp_add_lib_glob)
-
 # }}}
 # {{{ Add executable
 

@@ -44,8 +44,8 @@ easily updated in order to have all projects inherits from the new features.
 
 Some cmake function have been written to easily create a new library:
 
-   - cpp_add_lib(_glob)
-   - cpp_add_exe(_glob)
+   - cpp_add_lib
+   - cpp_add_exe
 
 The idea is for *user* to write as less as cmake as possible.
 
