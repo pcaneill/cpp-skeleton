@@ -138,6 +138,11 @@ Some variable can be modified in the cmake/base.mk :
    - v/release : release configuration
    - v/debug : debug configuration
 
+Both _make_ and _ninja_ works, but make is still used for the profile distpaching,
+but under the hood Ninja will be use if it was selected in the _${v/generator}_.
+The _${b/buildcmd}_ should be updated to reflect your ninja binary name (ninja-build,
+ninja ...).
+
 ## Parallel compilation
 
 If the OS is Mac or Linux the number of core available will be detected

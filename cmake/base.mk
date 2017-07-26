@@ -13,6 +13,14 @@ b/release   := -DCMAKE_BUILD_TYPE=Release
 b/debug     := -DCMAKE_BUILD_TYPE=Debug
 b/use_clang := -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_C_COMPILER=clang
 
+b/builcmd:=$(MAKE)
+b/buildfile:=Makefile
+ifeq ($(v/generator), Ninja)
+	b/builcmd:=ninja-build
+	b/buildfile:=build.ninja
+endif
+
+
 # }}}
 # {{{ Cores
 
@@ -31,11 +39,11 @@ v/procs:= $(or $(J),$(JOBS),${v/procs})
 
 .PHONY: test 
 
-all: ./${v/root}/${v/build}/$(v/profile)/Makefile
+all: ./${v/root}/${v/build}/$(v/profile)/${b/buildfile}
 ifeq (${v/profile},analyzer)
 	@scan-build $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/$(v/profile)/${v/current}
 else
-	@$(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/$(v/profile)/${v/current} $(MAKECMDGOALS)
+	@$(b/builcmd) -j ${v/procs} -C ./${v/root}/${v/build}/$(v/profile)/${v/current} $(MAKECMDGOALS)
 endif
 
 # Defines the different build targets depending on the profiles
@@ -48,33 +56,33 @@ define make_build
 
 endef
 
-./${v/root}/${v/build}/normal/Makefile:
+./${v/root}/${v/build}/normal/${b/buildfile}:
 	$(call make_build, normal, ${b/debug} -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -DLCOV_COVERAGE=ON)
 
-./${v/root}/${v/build}/release/Makefile:
+./${v/root}/${v/build}/release/${b/buildfile}:
 	$(call make_build, release, ${b/release} -DLCOV_COVERAGE=ON)
 
-./${v/root}/${v/build}/debug/Makefile:
+./${v/root}/${v/build}/debug/${b/buildfile}:
 	$(call make_build, debug, ${b/debug} -DLCOV_COVERAGE=ON)
 
-./${v/root}/${v/build}/asan/Makefile:
+./${v/root}/${v/build}/asan/${b/buildfile}:
 	$(call make_build, asan, ${b/debug} ${b/use_clang} -DCLANG_ASAN=ON)
 
-./${v/root}/${v/build}/msan/Makefile:
+./${v/root}/${v/build}/msan/${b/buildfile}:
 	$(call make_build, msan, ${b/debug} ${b/use_clang} -DCLANG_MSAN=ON)
 
-./${v/root}/${v/build}/tsan/Makefile:
+./${v/root}/${v/build}/tsan/${b/buildfile}:
 	$(call make_build, tsan, ${b/debug} ${b/use_clang} -DCLANG_TSAN=ON)
 
-./${v/root}/${v/build}/usan/Makefile:
+./${v/root}/${v/build}/usan/${b/buildfile}:
 	$(call make_build, usan, ${b/debug} ${b/use_clang} -DCLANG_USAN=ON)
 
-./${v/root}/${v/build}/analyzer/Makefile:
+./${v/root}/${v/build}/analyzer/${b/buildfile}:
 	$(call make_build, analyzer, -DCLANG_STATIC_ANALYZER=ON, scan-build)
 
 # {{{ Target: tidy
 
-tidy: ./${v/root}/${v/build}/normal/Makefile
+tidy: ./${v/root}/${v/build}/normal/${b/buildfile}
 ifeq (".","${v/root}")
 	@$(PYTHON) cmake/utils/run-clang-tidy.py -p ./${v/root}/${v/build}/normal/ -j ${v/procs}
 else
@@ -97,7 +105,7 @@ git-format:
 # }}}
 # {{{ Target: ycm
 
-ycm: ./${v/root}/${v/build}/normal/Makefile
+ycm: ./${v/root}/${v/build}/normal/${b/buildfile}
 ifeq (".","${v/root}")
 	@$(CP) cmake/ycm_extra_conf.py .ycm_extra_conf.py
 	@${SED} -i 's/__BUILD__/${v/build}/' .ycm_extra_conf.py
@@ -108,7 +116,7 @@ endif
 # }}}
 # {{{ Target: rtags
 
-rtags: ./${v/root}/${v/build}/normal/Makefile
+rtags: ./${v/root}/${v/build}/normal/${b/buildfile}
 ifeq (".","${v/root}")
 	@$(RTAGS) -J ${v/build}/normal/
 else
@@ -118,7 +126,7 @@ endif
 # }}}
 # {{{ Target: ctags
 
-ctags: ./${v/root}/${v/build}/normal/Makefile
+ctags: ./${v/root}/${v/build}/normal/${b/buildfile}
 ifeq (".","${v/root}")
 	@ctags -o .tags
 else
@@ -128,7 +136,7 @@ endif
 # }}}
 # {{{ Target: etags
 
-etags: ./${v/root}/${v/build}/normal/Makefile
+etags: ./${v/root}/${v/build}/normal/${b/buildfile}
 ifeq (".","${v/root}")
 	@ctags -e -o .tags
 else
@@ -146,7 +154,7 @@ endif
 # source repository.
 # After that remove all the directories under __BUILD__
 distclean:
-	@$(MAKE) clean
+	@$(buildcmd) clean
 	$(foreach profile, $(PROFILES), $(call make_distclean, $(profile)))
 
 define make_distclean
@@ -231,8 +239,8 @@ ifeq ($(findstring tidy,$(MAKECMDGOALS)),)
 ifeq ($(findstring format,$(MAKECMDGOALS)),)
 ifeq ($(findstring etags,$(MAKECMDGOALS)),)
 
-$(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/Makefile
-	@ $(MAKE) -j ${v/procs} -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
+$(MAKECMDGOALS): ./${v/root}/${v/build}/${v/profile}/${b/buildfile}
+	@ $(b/builcmd) -j ${v/procs} -C ./${v/root}/${v/build}/${v/profile}/${v/current} $(MAKECMDGOALS)
 
 endif
 endif
