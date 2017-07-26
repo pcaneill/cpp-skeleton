@@ -55,7 +55,10 @@ function (cpp_add_test)
      COMMENT "Copying test executable to ${test_PATH}/ctest"
      VERBATIM
   )
-  set_directory_properties (PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${test_PATH}/ctest)
+  get_directory_property (extra_clean ADDITIONAL_MAKE_CLEAN_FILES)
+  set_directory_properties (PROPERTIES
+     ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean};${test_PATH}/ctest"
+  )
 
   add_test (
      NAME ${test_NAME}
@@ -151,7 +154,7 @@ function (cpp_add_exe)
      COMMENT "Copying ${exe_NAME} to ${CMAKE_SOURCE_DIR}/bin/${exe_NAME} and ${exe_PATH}/${exe_NAME}"
      VERBATIM
   )
-  get_directory_property(extra_clean ADDITIONAL_MAKE_CLEAN_FILES)
+  get_directory_property (extra_clean ADDITIONAL_MAKE_CLEAN_FILES)
   set_directory_properties (
     PROPERTIES
     ADDITIONAL_MAKE_CLEAN_FILES "${extra_clean};${exe_PATH}/${exe_NAME};${CMAKE_SOURCE_DIR}/bin/${exe_NAME}"
