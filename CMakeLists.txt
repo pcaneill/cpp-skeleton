@@ -1,9 +1,9 @@
-cmake_minimum_required (VERSION 3.0.2)
+cmake_minimum_required (VERSION 3.2)
 
 include (cmake/HunterGate.cmake)
 HunterGate(
-    URL "https://github.com/ruslo/hunter/archive/v0.19.46.tar.gz"
-    SHA1 "43e4edf5791a95ac845bbc5ab688b5c3ffe980af"
+    URL "https://github.com/ruslo/hunter/archive/v0.23.207.tar.gz"
+    SHA1 "6e1b05a1f65c2aa492f7f43a43578e83ac62bbdd"
 )
 
 project (cppskeleton)
